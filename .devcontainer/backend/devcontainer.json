@@ -1,0 +1,21 @@
+{
+  "name": "kashihara-app",
+  "dockerComposeFile": "../../compose.yaml",
+  "service": "backend",
+  "workspaceFolder": "/home/user/workspace/backend",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/workspace,type=bind,consistency=cached",
+  "customizations": {
+    "settings": {
+        "git.openRepositoryInParentFolders": "always",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+    "vscode": {
+      "extensions": []
+    }
+  }
+}

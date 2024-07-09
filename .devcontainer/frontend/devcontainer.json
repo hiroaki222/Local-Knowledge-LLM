@@ -1,0 +1,31 @@
+{
+  "name": "kashihara-app",
+  "dockerComposeFile": "../../compose.yaml",
+  "service": "frontend",
+  "workspaceFolder": "/home/user/workspace/frontend",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/workspace,type=bind,consistency=cached",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "git.openRepositoryInParentFolders": "always",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-rename-tag",
+        "dsznajder.es7-react-js-snippets",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "christian-kohler.path-intellisense",
+        "mhutchie.git-graph",
+        "MS-CEINTL.vscode-language-pack-ja"
+      ]
+    }
+  }
+}

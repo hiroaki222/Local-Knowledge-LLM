@@ -1,0 +1,35 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    container_name: frontend_container
+    volumes:
+      - .:/home/user/workspace:cashed
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    tty: True
+    networks:
+      - app-network
+    command: sleep infinity
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_container
+    volumes:
+      - .:/home/user/workspace:cashed
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    command: sleep infinity
+
+networks:
+  app-network:
+    driver: bridge
