@@ -15,7 +15,10 @@
         }
       },
     "vscode": {
-      "extensions": []
+      "extensions": [
+        "mhutchie.git-graph",
+        "MS-CEINTL.vscode-language-pack-ja"
+      ]
     }
   }
 }
