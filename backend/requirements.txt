@@ -1,2 +1,3 @@
 langchain
 boto3
+langchain_groq
