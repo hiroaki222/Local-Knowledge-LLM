@@ -24,7 +24,8 @@
         "ms-vscode.vscode-typescript-next",
         "christian-kohler.path-intellisense",
         "mhutchie.git-graph",
-        "MS-CEINTL.vscode-language-pack-ja"
+        "MS-CEINTL.vscode-language-pack-ja",
+        "GitHub.vscode-pull-request-github"
       ]
     }
   }
