@@ -17,7 +17,8 @@
     "vscode": {
       "extensions": [
         "mhutchie.git-graph",
-        "MS-CEINTL.vscode-language-pack-ja"
+        "MS-CEINTL.vscode-language-pack-ja",
+        "GitHub.vscode-pull-request-github"
       ]
     }
   }
