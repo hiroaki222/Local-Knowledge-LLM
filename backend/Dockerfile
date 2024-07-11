@@ -11,7 +11,7 @@ RUN getent group 1000 || groupadd --gid 1000 user \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-    RUN (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+RUN (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
     && sudo mkdir -p -m 755 /etc/apt/keyrings \
     && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
     && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
@@ -19,8 +19,8 @@ RUN getent group 1000 || groupadd --gid 1000 user \
     && sudo apt update \
     && sudo apt install gh -y
 
-    COPY requirements.txt /tmp/pip-tmp/
-    RUN pip3 install -r /tmp/pip-tmp/requirements.txt \
+COPY requirements.txt /tmp/pip-tmp/
+RUN pip3 install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
 
 USER $USERNAME
