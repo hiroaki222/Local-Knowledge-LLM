@@ -3,3 +3,4 @@ boto3
 langchain_groq
 fastapi 
 uvicorn
+langchain_aws

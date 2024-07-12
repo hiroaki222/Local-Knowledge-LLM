@@ -1,44 +1,24 @@
-import boto3
-from langchain.prompts import *
-from langchain.chains import *
+import os
 
-class ChatBot:
-    def __init__(self, model_id):
-        self.model_id = model_id
+os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 
-        # Bedrockクライアントを作成
-        self.bedrock_client = boto3.client(model_id,region_name='us-east-1')
+from langchain_aws import ChatBedrock 
+from langchain.prompts import PromptTemplate
 
-        # LangChainのコンポーネントを作成
-        self.llm_chain = Chain(
-            PromptTemplate(
-                text="ユーザー: $message\n\nBedrock: $response"
-            ),
-            self.bedrock_invoke_model
-        )
+model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
-    def bedrock_invoke_model(self, message):
-        response = self.bedrock_client.invoke_model(
-            ModelId=self.model_id,
-            Prompt=message
-        )
-        return response['GeneratedText']
+llm = ChatBedrock(
+    model_id=model_id,
+    model_kwargs={"temperature": 0.9}
+)
 
-    def chat(self):
-        while True:
-            # ユーザーからのメッセージを取得
-            message = input('ユーザー: ')
+prompt = PromptTemplate(
+    input_variables=["product"],
+    template="{product}を製造する会社にとって、どのような会社名が良いでしょうか？",
+)
 
-            # LangChainを使用してBedrock LLMにメッセージを送信し、応答を取得
-            response = self.llm_chain.run({
-                'message': message
-            })
+from langchain.chains import LLMChain
+chain = LLMChain(llm=llm, prompt=prompt)
 
-            # 応答を表示
-            print(f'Bedrock: {response["response"]}')
-
-
-
-model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-chatbot = ChatBot(model_id)
-chatbot.chat()
+# Run the chain only specifying the input variable.
+print(chain.run("カラフルなソックス"))
