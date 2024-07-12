@@ -1,0 +1,6 @@
+{
+    "name": "kashihara-app",
+    "dockerComposeFile": "../../compose.yaml",
+    "service": "ldap",
+    "workspaceFolder": ""
+}
