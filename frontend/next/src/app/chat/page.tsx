@@ -1,7 +1,12 @@
+'use client'
 import Header from "@/components/ui/header"
 import Footer from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+
+const ChatForm = () =>{
+    
+}
 
 
 export default function Page() {
@@ -15,7 +20,7 @@ export default function Page() {
             <section className="flex flex-col w-full relative">
                 <Header />
                 <div className="flex w-full absolute bottom-0">
-                    <Footer/>
+                    <Footer />
                 </div>
             </section>
         </div>
