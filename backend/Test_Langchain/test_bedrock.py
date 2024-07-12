@@ -39,6 +39,6 @@ class ChatBot:
 
 
 
-model_id = '<YOUR_MODEL_ID>'
+model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
 chatbot = ChatBot(model_id)
 chatbot.chat()
