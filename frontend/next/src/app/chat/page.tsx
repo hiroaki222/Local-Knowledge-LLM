@@ -6,20 +6,16 @@ import { Input } from "@/components/ui/input"
 
 export default function Page() {
     return <>
-        <div className="flex h-screen bg-sky-100">
-            <aside className="w-80 border-r dark:border-zinc-700">
+        <div className="flex h-screen bg-sky-50">
+            <aside className="w-80 border-r dark:border-zinc-700 bg-sky-100">
+                <header className="flex justify-center items-center h-16 bg-sky-300">
+                    <p className="text-xl text-white font-bold font-sans">履歴</p>
+                </header>
             </aside>
             <section className="flex flex-col w-full relative">
                 <Header />
-                <div className="flex w-full absolute bottom-0 justify-center items-center h-16 bg-sky-300">
-                    {/* <Footer/> */}
-                    {/* <div className="flex w-full justify-center items-center h-16 bg-sky-300 "> */}
-                        {/* <div className="flex w-full items-center space-x-2"> */}
-                        <div className="flex w-full items-center">
-                            <Input type="query" placeholder="query" />
-                            <Button type="submit">送信</Button>
-                        </div>
-                    {/* </div> */}
+                <div className="flex w-full absolute bottom-0">
+                    <Footer/>
                 </div>
             </section>
         </div>
