@@ -7,7 +7,7 @@ class ChatBot:
         self.model_id = model_id
 
         # Bedrockクライアントを作成
-        self.bedrock_client = boto3.client('bedrock')
+        self.bedrock_client = boto3.client(model_id,region_name='us-east-1')
 
         # LangChainのコンポーネントを作成
         self.llm_chain = Chain(
