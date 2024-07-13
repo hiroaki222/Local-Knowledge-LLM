@@ -5,12 +5,12 @@ wsl2 dockerそのへんは前提条件
 > **wsl内で**作業してね
 ```bash
 cd ~
-gh repo clone hiroaki222/kashihara-app
+gh repo clone hiroaki222/Local-Knowledge-LLM
 ```
 ## 0.1 Dev Containersを入れる
 [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)拡張機能を入れる．
 ## 0.2 コンテナ起動
-1. [フォルダーを開く]から`kashihara-app`を開く
+1. [フォルダーを開く]から`Local-Knowledge-LLM`を開く
 2. コマンドパレットを開く([F1] or ［Ctrl］＋［Shift］＋［P］)
 3. 「dev containers open folder in container」を入力してenter
 4. 開きたい方のコンテナを選ぶ
@@ -26,7 +26,7 @@ gh auth login
 1. [リモートエクスプローラ](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)拡張機能を入れる．
 2. vscodeの横のバーからリモートエクスプローラのアイコンを選択
 3. プルダウンメニューから[開発コンテナー]を選択
-4. [∨開発コンテナー]から[kashihara-app (frontend / backend)_container]にカーソルを合わせる
+4. [∨開発コンテナー]から[Local-Knowledge-LLM (frontend / backend)_container]にカーソルを合わせる
 5. 表示されるボタンから任意のものを選択
 # 2. ブランチを切りましょう
 ## 2.1 ブランチ命名則
