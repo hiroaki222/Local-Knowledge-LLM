@@ -1,5 +1,5 @@
 {
-  "name": "kashihara-app",
+  "name": "Local-Knowledge-LLM_frontend_container",
   "dockerComposeFile": "../../compose.yaml",
   "service": "frontend",
   "workspaceFolder": "/home/user/workspace/frontend",
