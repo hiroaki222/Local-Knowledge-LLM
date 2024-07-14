@@ -1,6 +1,6 @@
-# 独立ネットワーク環境向けチャットボット
 <div id="top"></div>
 
+# 独立ネットワーク環境向けチャットボット
 ## 使用技術一覧
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![Bun](https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white) ![AWS Bedrock](https://img.shields.io/badge/AWS%20Bedrock-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white) ![LangChain](https://img.shields.io/badge/LangChain-000000?style=for-the-badge&logo=chainlink&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white) ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![Devcontainer](https://img.shields.io/badge/Devcontainer-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
@@ -57,10 +57,11 @@ $ tree -a -L 4 -d -I "node_modules|.git"
 ## 開発環境構築
 
 ### 前提条件
-- Dockerがインストールされる
+- Dockerがインストールされている
+- Gitがインストールされている
 
 ### セットアップ手順
-1. リポジトリのクローン
+<!-- 1. リポジトリのクローン
 ```bash
 git clone https://github.com/hiroaki222/Local-Knowledge-LLM
 cd Local-Knowledge-LLM
@@ -71,7 +72,8 @@ cd Local-Knowledge-LLM
 docker-compose up -d --build
 ```
 
-3. 開発サーバーへのアクセス:
-http://localhost:8000
+3. 開発サーバーへのアクセス
+http://localhost:8000 -->
+[CONTRIBUTING.md](/docs/CONTRIBUTING.md)を参照．
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
