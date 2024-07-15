@@ -1,9 +1,10 @@
 {
-  "name": "kashihara-app",
+  "name": "Local-Knowledge-LLM_backend_container",
   "dockerComposeFile": "../../compose.yaml",
   "service": "backend",
   "workspaceFolder": "/home/user/workspace/backend",
   "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/workspace,type=bind,consistency=cached",
+  "postCreateCommand": "pip install -r requirements.txt",
   "customizations": {
     "settings": {
         "git.openRepositoryInParentFolders": "always",
