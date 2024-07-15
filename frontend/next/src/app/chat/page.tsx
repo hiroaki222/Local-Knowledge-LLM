@@ -4,6 +4,7 @@ import Footer from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+
 const ChatForm = () =>{
     
 }
