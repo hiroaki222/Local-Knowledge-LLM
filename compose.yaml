@@ -44,8 +44,8 @@ services:
     networks:
       - app-network
     environment:
-      LDAP_ORGANISATION: "iput student"
-      LDAP_DOMAIN: "kashihara.com"
+      LDAP_ORGANISATION: "My Company"
+      LDAP_DOMAIN: "my-company.com"
       LDAP_ADMIN_PASSWORD: "0000"
     command: sleep infinity
 
