@@ -2,7 +2,7 @@ import os
 from langchain_aws import ChatBedrock 
 from langchain.prompts import PromptTemplate
 from langchain.embeddings import BedrockEmbeddings
-import chromadb
+from langchain_chroma import Chroma
 from langchain_community.document_loaders import CSVLoader
 
 def chatbedrock(question):
@@ -26,18 +26,31 @@ def chatbedrock(question):
     return ans
 
 def embedding():
-    
-    # * embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
+    os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
-    # Chromaデータベースの設定
-    CHROMA_PERSIST_DIR = "db/persistent_storage"
+    # テキストの作成
+    #loader = CSVLoader(file_path="/data/data.csv")
+    #documents = loader.load()
+    #text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+    #texts = text_splitter.split_documents(documents)
+# ドキュメントの準備
+    texts = [
+        "橿原市の市長は亀田忠彦",
+        "橿原市役所の住所は、奈良県橿原市内膳町1-1-60",  
+    ]
 
-    loader = CSVLoader(file_path="/data/data.csv")
-    documents = loader.load()
-    text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
-    texts = text_splitter.split_documents(documents)
-
+    # エンベディング用モデル
     embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
-    vectorstore = Chroma.from_documents(texts, embeddings, persist_directory=CHROMA_PERSIST_DIR)
-    vectorstore.persist()
-    print("データがエンベディングされ、ベクトルデータベースが更新されました。")
+
+    # VectorStoreの準備
+    vectorstore = Chroma.from_texts(
+        texts,
+        embedding=embeddings,
+    )
+
+    # Retrieverの準備
+    chroma_retriever = vectorstore.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": 1},
+    )
