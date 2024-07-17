@@ -34,6 +34,11 @@ export function Chatlayout() {
     setInputValue("");
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setInputValue("");
+  };
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -46,7 +51,7 @@ export function Chatlayout() {
         <div className="p-4 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Messages</h2>
-            <Button size="icon" variant="ghost">
+            <Button size="icon" variant="ghost" onClick={handleNewChat}>
               <PencilIcon className="w-6 h-6" />
             </Button>
           </div>
