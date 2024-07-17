@@ -2,8 +2,8 @@
   "name": "Local-Knowledge-LLM_frontend_container",
   "dockerComposeFile": "../../compose.yaml",
   "service": "frontend",
-  "workspaceFolder": "/home/user/workspace/frontend",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/home/bun/workspace/frontend/next",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/bun/workspace,type=bind,consistency=cached",
   "customizations": {
     "vscode": {
       "settings": {
