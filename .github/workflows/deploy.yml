@@ -22,9 +22,8 @@ jobs:
         run: |
       - name: Deploy to server
         run: |
-          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key deploy@user.com '
-            cd Local-Knowledge-LLM &&
-            git pull origin main &&
-            docker-compose up -d --build
+          ssh -o StrictHostKeyChecking=no deploy@user.com '
+          cd Local-Knowledge-LLM &&
+          git pull origin main &&
+          docker-compose up -d --build
           '
