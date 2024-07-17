@@ -1,10 +1,9 @@
 import os
-os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
-
 from langchain_aws import ChatBedrock 
 from langchain.prompts import PromptTemplate
 
 def chatbedrock(question):
+    os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
 
     llm = ChatBedrock(
