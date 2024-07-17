@@ -1,0 +1,87 @@
+*   [33m9509ec0[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on feature-chatpage: b73c62d ボタン作ったかも
+[31m|[m[32m\[m  
+[31m|[m * [33me8acb57[m index on feature-chatpage: b73c62d ボタン作ったかも
+[31m|[m[31m/[m  
+* [33mb73c62d[m[33m ([m[1;36mHEAD -> [m[1;32mIsekiToa/feature-chatpage[m[33m, [m[1;31morigin/IsekiToa/feature-chatpage[m[33m)[m ボタン作ったかも
+[32m|[m *   [33mb591eb6[m[33m ([m[1;31morigin/Ito-N/Dev[m[33m)[m Merge remote-tracking branch 'origin/dev' into Ito-N/Dev
+[32m|[m [33m|[m[34m\[m  
+[32m|[m * [34m\[m   [33m28c1351[m Merge branch 'dev' into Ito-N/Dev
+[32m|[m [35m|[m[36m\[m [34m\[m  
+[32m|[m * [36m|[m [34m|[m [33mbf65ee9[m test: bedrockのLLMを使ったチャット機能
+[32m|[m * [36m|[m [34m|[m [33me9c5efc[m test: bedrockの情報を修正
+[32m|[m * [36m|[m [34m|[m [33m7608865[m test: bedrockのIDを追加
+[32m|[m * [36m|[m [34m|[m [33m6af33cb[m feat: langchainの挙動テスト用ファイルの追加
+[32m|[m * [36m|[m [34m|[m   [33m15533e0[m Merge remote-tracking branch 'origin/dev' into Ito-N/Dev
+[32m|[m [1;31m|[m[1;32m\[m [36m\[m [34m\[m  
+[32m|[m * [1;32m|[m [36m|[m [34m|[m [33m4e83207[m refacter: 使ってないimportの削除
+[32m|[m * [1;32m|[m [36m|[m [34m|[m [33mcf6ec91[m test: テスト用チャット
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m *   [33m93ea7e1[m[33m ([m[1;31morigin/daiki/feature-loginpage[m[33m)[m Merge remote-tracking branch 'origin/dev' into daiki/feature-loginpage
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;33m|[m[34m\[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;33m|[m[34m/[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m[34m/[m[1;33m|[m   
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m * [33m9e29d64[m feat : 承認機能追加かも
+[32m|[m [1;32m|[m[32m_[m[1;32m|[m[32m_[m[36m|[m[32m_[m[34m|[m[32m/[m  
+[32m|[m[32m/[m[1;32m|[m [1;32m|[m [36m|[m [34m|[m   
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m *   [33m6920878[m[33m ([m[1;31morigin/hiroaki222/feature-api[m[33m)[m Merge remote-tracking branch 'origin/dev' into hiroaki222/feature-api
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;35m|[m[34m\[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;35m|[m[34m/[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [34m|[m[34m/[m[1;35m|[m   
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [1;35m|[m   [33ma1ceba9[m[33m ([m[1;31morigin/dev[m[33m)[m Merge remote-tracking branch 'origin/main' into dev
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m[32m\[m [1;35m\[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m * [1;35m|[m [33mf257b03[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m docs: 内容修正
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m [32m|[m * [33m4f75afa[m test: 入力した値でapiを叩くサンプル
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m [32m|[m * [33m53a6ecf[m test: nextからapi叩くサンプル
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m [32m|[m *   [33mfae670b[m Merge remote-tracking branch 'origin/dev' into hiroaki222/feature-api
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m [32m|[m [33m|[m[31m\[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m [32m|[m[31m_[m[33m|[m[31m/[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [31m|[m[31m/[m[32m|[m [33m|[m   
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [32m|[m [33m|[m [33m9426d20[m refactor: コンテナ名変更
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [32m|[m [33m|[m [33m06344a6[m Merge remote-tracking branch 'origin/main' into dev
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [35m|[m[32m\[m[32m|[m [33m|[m 
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [35m|[m * [33m|[m [33m4e4c40d[m docs: リポジトリ名に合わせた
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [35m|[m * [33m|[m [33m318a321[m refactor: コンテナ名変更
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [36m|[m [33m|[m [33m358d805[m Merge branch 'main' into dev
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [1;31m|[m[36m\[m[36m|[m [33m|[m 
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m [1;31m|[m * [33m|[m [33m5221e41[m docs:READMEとCONTRIBUTINGに分けた
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [1;32m|[m [33m|[m [33m5d6478f[m Merge remote-tracking branch 'origin/main' into dev
+[32m|[m [1;32m|[m[32m_[m[1;32m|[m[32m_[m[36m|[m[32m/[m[1;32m|[m [1;32m|[m [33m|[m 
+[32m|[m[32m/[m[1;32m|[m [1;32m|[m [36m|[m [1;32m|[m[1;32m/[m [33m/[m  
+[32m|[m [1;32m|[m [1;32m|[m [36m|[m * [33m|[m [33m3f6e7a1[m refactor: Delete .devcontainer/.DS_Store
+* [1;32m|[m [1;32m|[m [36m|[m [1;34m|[m [33m|[m   [33m15ef6e9[m Merge pull request #4 from hiroaki222:hiroaki222/feature-build-ldap-server
+[36m|[m[1;36m\[m [1;32m\[m [1;32m\[m [36m\[m [1;34m\[m [33m\[m  
+[36m|[m [1;36m|[m[36m_[m[1;32m|[m[36m_[m[1;32m|[m[36m/[m [1;34m/[m [33m/[m  
+[36m|[m[36m/[m[1;36m|[m [1;32m|[m [1;32m|[m [1;34m|[m [33m|[m   
+[36m|[m * [1;32m|[m [1;32m|[m [1;34m|[m [33m|[m [33ma373a68[m[33m ([m[1;31morigin/hiroaki222/feature-build-ldap-server[m[33m)[m feat: ldapサーバー構築とタイポ修正
+[36m|[m[36m/[m [1;32m/[m [1;32m/[m [1;34m/[m [33m/[m  
+[36m|[m [1;32m|[m [1;32m|[m [1;34m|[m *   [33m3938e80[m Merge remote-tracking branch 'origin/dev' into hiroaki222/feature-api
+[36m|[m [1;32m|[m [1;32m|[m [1;34m|[m [31m|[m[36m\[m  
+[36m|[m [1;32m|[m[36m_[m[1;32m|[m[36m_[m[1;34m|[m[36m_[m[31m|[m[36m/[m  
+[36m|[m[36m/[m[1;32m|[m [1;32m|[m [1;34m|[m [31m|[m   
+* [1;32m|[m [1;32m|[m [1;34m|[m [31m|[m   [33m482455a[m Merge branch 'main' into dev
+[1;32m|[m[1;34m\[m [1;32m\[m [1;32m\[m [1;34m\[m [31m\[m  
+[1;32m|[m [1;34m|[m[1;32m_[m[1;32m|[m[1;32m/[m [1;34m/[m [31m/[m  
+[1;32m|[m[1;32m/[m[1;34m|[m [1;32m|[m [1;34m/[m [31m/[m   
+[1;32m|[m [1;34m|[m [1;32m|[m[1;34m/[m [31m/[m    
+[1;32m|[m [1;34m|[m[1;34m/[m[1;32m|[m [31m|[m     
+[1;32m|[m * [1;32m|[m [31m|[m [33m72a604d[m[33m ([m[1;32mmain[m[33m)[m chore: devcontainer起動時にpip install自動化
+[1;32m|[m * [1;32m|[m [31m|[m [33me4edc58[m style: 謎の改行消した
+[1;32m|[m [34m|[m [1;32m|[m * [33mf104c9a[m fix: 0.0.0.0に固定して`python test.py`で実行できるようにした(フロントエンドからアクセスできるように)
+[1;32m|[m [34m|[m [1;32m|[m * [33m8353cdb[m chore: python用gitignore追加
+[1;32m|[m [34m|[m [1;32m|[m * [33ma2d2fde[m test: fastapiのサンプルコードとテスト
+[1;32m|[m [34m|[m [1;32m|[m * [33m050126f[m chore: uvicorn追加
+[1;32m|[m [34m|[m [1;32m|[m * [33m16dce28[m chore: fastapi追加
+[1;32m|[m [34m|[m[1;32m_[m[1;32m|[m[1;32m/[m  
+[1;32m|[m[1;32m/[m[34m|[m [1;32m|[m   
+[1;32m|[m [34m|[m [1;32m|[m * [33mb9dd277[m[33m ([m[1;31morigin/shion/feature-newpage[m[33m)[m 入力ボタン
+[1;32m|[m [34m|[m [1;32m|[m * [33m02d5b48[m 完成(仮)UI
+[1;32m|[m [34m|[m [1;32m|[m * [33m4bc84a5[m fix: フッターのバグ修正
+[1;32m|[m [34m|[m [1;32m|[m * [33md29084d[m バグ追加
+[1;32m|[m [34m|[m [1;32m|[m * [33mc0d0e1c[m バグ
+[1;32m|[m [34m|[m [1;32m|[m *   [33m30a1ef6[m Merge remote-tracking branch 'origin/dev' into shion/feature-newpage
+[1;32m|[m [34m|[m [1;32m|[m [36m|[m[1;32m\[m  
+[1;32m|[m [34m|[m[1;32m_[m[1;32m|[m[1;32m_[m[36m|[m[1;32m/[m  
+[1;32m|[m[1;32m/[m[34m|[m [1;32m|[m [36m|[m   
+* [34m|[m [1;32m|[m [36m|[m [33m1719668[m Merge remote-tracking branch 'origin/main' into dev
+[1;32m|[m[34m\[m[34m|[m [1;32m|[m [36m|[m 
+[1;32m|[m * [1;32m|[m [36m|[m [33mb6b08a6[m chore: shadcn追加
+
