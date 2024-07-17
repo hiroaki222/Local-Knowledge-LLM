@@ -22,7 +22,7 @@ jobs:
         run: |
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no deploy@user.com '
+          ssh -o StrictHostKeyChecking=no ubuntu@iputost.kashihara.city '
           cd Local-Knowledge-LLM &&
           git pull origin main &&
           docker-compose up -d --build
