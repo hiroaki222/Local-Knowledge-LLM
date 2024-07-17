@@ -15,7 +15,6 @@ documents = loader.load()
 text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
 texts = text_splitter.split_documents(documents)
 
-#embeddings = OpenAIEmbeddings()
 embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 vectorstore = Chroma.from_documents(texts, embeddings, persist_directory=CHROMA_PERSIST_DIR)
 vectorstore.persist()

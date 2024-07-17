@@ -13,7 +13,7 @@ def chatbedrock(question):
 
     prompt = PromptTemplate(
         input_variables=["product"],
-        template="あなたは橿原市役所の職員を対象にしたサポートチャットボットです。質問:{product}に対して回答を行ってください",
+        template="あなたは橿原市役所の職員を対象にしたサポートチャットボットです。質問:「{product}」、に対して回答を行ってください",
     )
 
     from langchain.chains import LLMChain

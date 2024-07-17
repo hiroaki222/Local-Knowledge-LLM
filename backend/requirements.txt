@@ -4,3 +4,5 @@ langchain_groq
 fastapi 
 uvicorn
 langchain_aws
+chromadb
+langchain-community  
