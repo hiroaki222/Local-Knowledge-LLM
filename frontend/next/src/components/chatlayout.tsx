@@ -9,7 +9,7 @@ export function Chatlayout() {
   const [inputValue, setInputValue] = useState("");
   const chatContainerRef = useRef(null);
 
-  const fetchAPI = async (message) => {
+  const fetchAPI = async (message: string | number | boolean) => {
     try {
       const response = await fetch(`/api/DqhSF91M_Eyl1rWXIrJI7gtFnjB67TSMJV2nf9-ZuNVHNDg?prompt=${encodeURIComponent(message)}`);
       const data = await response.json();
@@ -20,7 +20,7 @@ export function Chatlayout() {
     }
   };
 
-  const handleSendMessage = async (event) => {
+  const handleSendMessage = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (inputValue.trim() === "") return;
 
