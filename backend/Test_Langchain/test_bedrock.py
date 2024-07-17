@@ -13,7 +13,7 @@ llm = ChatBedrock(
 
 prompt = PromptTemplate(
     input_variables=["product"],
-    template="{product}を製造する会社にとって、どのような会社名が良いでしょうか？",
+    template="{product}について詳しく教えてください",
 )
 
 from langchain.chains import LLMChain
