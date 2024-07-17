@@ -2,6 +2,7 @@ from langchain.embeddings import BedrockEmbeddings
 import os
 os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 from langchain_aws import ChatBedrock 
+import chromadb
 
 # * embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 
@@ -18,4 +19,4 @@ texts = text_splitter.split_documents(documents)
 embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 vectorstore = Chroma.from_documents(texts, embeddings, persist_directory=CHROMA_PERSIST_DIR)
 vectorstore.persist()
-st.success("データがエンベディングされ、ベクトルデータベースが更新されました。")
+print("データがエンベディングされ、ベクトルデータベースが更新されました。")
