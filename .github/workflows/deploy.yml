@@ -12,9 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: SSH and deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      - name: Install SSH key
+        uses: actions/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SECRET_TOKEN }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: Deploy to server
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key deploy@user.com '
