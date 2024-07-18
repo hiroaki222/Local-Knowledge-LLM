@@ -1,5 +1,4 @@
 from langchain_community.vectorstores.faiss import FAISS
-#from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader
 
@@ -16,20 +15,16 @@ index_path = "./storage"
 # ディレクトリの読み込み
 loader = DirectoryLoader(data_dir)
 
-# 埋め込みモデルの読み込み
-#embedding_model = HuggingFaceEmbeddings(
-#    model_name="intfloat/multilingual-e5-large"
-#)
+#* 埋め込みモデルの読み込み
 embedding_model = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 
 # テキストをチャンクに分割
-with open("test_app/data/data.csv", "r", encoding="your_encoding") as f:
-    split_texts = f.load_and_split(
-        text_splitter=RecursiveCharacterTextSplitter(
-            chunk_size=500,# 分割したチャンクごとの文字数
-            chunk_overlap=50  # チャンク間で被らせる文字数
-        )
+split_texts = f.load_and_split(
+    text_splitter=RecursiveCharacterTextSplitter(
+        chunk_size=500,#* 分割したチャンクごとの文字数
+        chunk_overlap=50  #* チャンク間で被らせる文字数
     )
+)
 
 # インデックスの作成
 index = FAISS.from_documents(
