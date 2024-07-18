@@ -6,6 +6,7 @@ services:
     depends_on:
       - backend
       - ldap
+      - mongodb
     container_name: frontend_container
     volumes:
       - .:/home/bun/workspace:cached
