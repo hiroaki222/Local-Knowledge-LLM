@@ -49,6 +49,19 @@ services:
       LDAP_ADMIN_PASSWORD: "0000"
     command: sleep infinity
 
+  mongodb:
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    container_name: mongodb_container
+    volumes:
+      - .:/home/user/workspace:cached
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    command: sleep infinity
+
 networks:
   app-network:
     driver: bridge
