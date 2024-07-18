@@ -44,6 +44,9 @@ def chatbedrock(user_input):
         model_kwargs={"temperature": 0.9}
     )
 
+    # メモリーの設定
+    memory = ConversationBufferMemory(memory_key="chat_history",output_key="result", return_messages=True)
+
     # （RAG用）質問回答chainの設定
     chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -52,6 +55,7 @@ def chatbedrock(user_input):
         ), 
         chain_type_kwargs={"prompt": QUESTION_PROMPT}, # プロンプトをセット
         chain_type="map_reduce", #* 検索した文章の処理方法 [stuff:詰め込み方式、map_reduce:チャンクごとに実行、refine:純度を高める]
+        memory=memory,
         return_source_documents=True # indexの検索結果を確認する場合はTrue
     )
 
