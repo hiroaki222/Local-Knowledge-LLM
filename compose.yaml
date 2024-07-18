@@ -51,17 +51,16 @@ services:
     command: sleep infinity
 
   mongodb:
-    build:
-      context: ./mongodb
-      dockerfile: Dockerfile
+    image: mongo
     container_name: mongodb_container
     volumes:
-      - .:/home/user/workspace:cached
+      - ./mongodb/db:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: UserThreadsDB
     ports:
       - "27017:27017"
     networks:
       - app-network
-    command: sleep infinity
 
 networks:
   app-network:
