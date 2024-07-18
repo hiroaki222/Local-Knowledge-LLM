@@ -54,7 +54,7 @@ def chatbedrock(user_input):
             search_kwargs={'k': 2} # indexから上位いくつの検索結果を取得するか
         ), 
         chain_type_kwargs={"prompt": QUESTION_PROMPT}, # プロンプトをセット
-        chain_type="map_reduce", #* 検索した文章の処理方法 [stuff:詰め込み方式、map_reduce:チャンクごとに実行、refine:純度を高める]
+        chain_type="stuff", #* 検索した文章の処理方法 [stuff:詰め込み方式、map_reduce:チャンクごとに実行、refine:純度を高める]
         memory=memory,
         return_source_documents=True # indexの検索結果を確認する場合はTrue
     )

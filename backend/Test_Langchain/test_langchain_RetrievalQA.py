@@ -4,6 +4,7 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain.chains import RetrievalQA
 from langchain_aws import ChatBedrock 
 from langchain.embeddings import BedrockEmbeddings
+from langchain.memory import ConversationBufferMemory
 import os
 os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 
