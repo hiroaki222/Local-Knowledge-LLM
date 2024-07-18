@@ -55,8 +55,6 @@ services:
     container_name: mongodb_container
     volumes:
       - ./mongodb/db:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: UserThreadsDB
     ports:
       - "27017:27017"
     networks:
