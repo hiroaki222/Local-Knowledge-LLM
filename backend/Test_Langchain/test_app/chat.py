@@ -36,8 +36,8 @@ def embedding():
     #texts = text_splitter.split_documents(documents)
 # ドキュメントの準備
     texts = [
-        "橿原市の市長は亀田忠彦",
-        "橿原市役所の住所は、奈良県橿原市内膳町1-1-60",  
+        "熊の名前は、「ぷー」",
+        "ネズミの名前は、「みっきー」",  
     ]
 
     # エンベディング用モデル
