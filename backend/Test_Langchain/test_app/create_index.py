@@ -19,7 +19,7 @@ loader = DirectoryLoader(data_dir)
 embedding_model = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 
 # テキストをチャンクに分割
-split_texts = f.load_and_split(
+split_texts = loader.load_and_split(
     text_splitter=RecursiveCharacterTextSplitter(
         chunk_size=500,#* 分割したチャンクごとの文字数
         chunk_overlap=50  #* チャンク間で被らせる文字数
