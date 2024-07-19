@@ -17,6 +17,11 @@ const config = {
         "2xl": "1400px",
       },
     },
+    colors:{
+      "city" : "#A1BEE5",
+      "cerezo": "#C82A5D",
+      "kashihara": "#32742C"
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
