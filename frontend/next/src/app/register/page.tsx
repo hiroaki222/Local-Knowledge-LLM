@@ -1,26 +1,25 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function RegisterPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
     });
 
-    if (result?.error) {
-      alert("認証に失敗しました");
+    if (response.ok) {
+      router.push('/login');
     } else {
-      router.push("/chat");
+      alert('登録に失敗しました');
     }
   };
 
@@ -40,7 +39,7 @@ export default function LoginPage() {
         placeholder="パスワード"
         required
       />
-      <button type="submit">ログイン</button>
+      <button type="submit">登録</button>
     </form>
   );
 }
