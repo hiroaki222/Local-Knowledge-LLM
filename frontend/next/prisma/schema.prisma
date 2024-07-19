@@ -1,0 +1,42 @@
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://mongodb:27017/testThreadsDB"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  uid      String   @unique
+  threads  Thread[]
+}
+
+model Thread {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  threadId String
+  metadata Metadata
+  chatLog  ChatLog[]
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+
+  @@unique([userId, threadId])
+}
+
+type Metadata {
+  title     String
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+type ChatLog {
+  timestamp DateTime
+  role      Role
+  content   String
+}
+
+enum Role {
+  ai
+  user
+}
