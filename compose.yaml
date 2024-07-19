@@ -9,7 +9,7 @@ services:
       - mongodb
     container_name: frontend_container
     volumes:
-      - .:/home/bun/workspace:cached
+      - .:/home/node/workspace:cached
     ports:
       - "3000:3000"
     environment:
