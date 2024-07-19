@@ -6,9 +6,10 @@ services:
     depends_on:
       - backend
       - ldap
+      - mongodb
     container_name: frontend_container
     volumes:
-      - .:/home/bun/workspace:cached
+      - .:/home/node/workspace:cached
     ports:
       - "3000:3000"
     environment:
@@ -48,6 +49,16 @@ services:
       LDAP_DOMAIN: "my-company.com"
       LDAP_ADMIN_PASSWORD: "0000"
     command: sleep infinity
+
+  mongodb:
+    image: mongo
+    container_name: mongodb_container
+    volumes:
+      - ./mongodb/db:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
 
 networks:
   app-network:
