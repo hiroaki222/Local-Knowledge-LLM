@@ -4,6 +4,7 @@ const MONGODB_URI = "mongodb://mongodb:27017"
 export const client = new MongoClient(MONGODB_URI)
 
 interface UserDoc {
+  uid: string
    threads: Thread[] 
 }
 
@@ -24,6 +25,7 @@ const db = client.db('testThreadsDB')
 const coll = db.collection("testThreads")
 const docs = [
   {
+    uid : "8234a9d1-12e4-4567-89ab-0c1de2f34567",
     threads: [
       {
         title: 'AIとの対話',
@@ -72,6 +74,7 @@ const docs = [
     ]
   },
   {
+    uid : "1f4e5a23-b678-43a1-9cde-5678f1234abc",
     threads: [
       {
         title: '技術的な質問',
@@ -103,6 +106,7 @@ const docs = [
     ]
   },
   {
+    uid: "34a5678b-90cd-4567-a12b-3e4f5g6789h0",
     threads: [
       {
         title: '旅行プラン相談',
