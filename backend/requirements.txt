@@ -1,8 +1,8 @@
-langchain
 boto3
-langchain_groq
-fastapi 
-uvicorn
-langchain_aws
 chromadb
-langchain-community  
+fastapi
+langchain
+langchain_aws
+langchain-community
+langchain_groq
+uvicorn[standard]
