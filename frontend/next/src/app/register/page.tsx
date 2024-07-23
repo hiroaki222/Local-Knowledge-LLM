@@ -1,52 +1,41 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
-export default function RegisterPage() {
-  const [username, setUsername] = useState("");
+export default function Register() {
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/auth/register", {
+    const response = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ userId, password }),
     });
-
     if (response.ok) {
       router.push("/login");
     } else {
-      alert("登録に失敗しました");
+      console.error("登録エラー");
     }
   };
 
   return (
-    <div>
-      <h1>ユーザー登録</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="ユーザー名"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="パスワード"
-          required
-        />
-        <button type="submit">登録</button>
-      </form>
-      <p>
-        既にアカウントをお持ちの方は<Link href="/login">こちら</Link>からログインしてください。
-      </p>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        placeholder="ユーザーID"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="パスワード"
+      />
+      <button type="submit">アカウント登録</button>
+    </form>
   );
 }

@@ -1,35 +1,38 @@
-import { NextResponse } from 'next/server';
-import ldap from 'ldapjs';
+import { NextResponse } from "next/server";
+import ldap from "ldapjs";
 
 export async function POST(req: Request) {
-  const { username, password } = await req.json();
-
-  const client = ldap.createClient({
-    url: process.env.LDAP_URL as string,
-  });
+  const { userId, password } = await req.json();
 
   return new Promise((resolve) => {
-    client.bind(process.env.LDAP_ADMIN_DN as string, process.env.LDAP_ADMIN_PASSWORD as string, (err) => {
-      if (err) {
-        client.unbind();
-        resolve(NextResponse.json({ error: 'LDAP接続エラー' }, { status: 500 }));
+    const client = ldap.createClient({
+      url: process.env.LDAP_URI
+    });
+
+    client.bind(process.env.LDAP_ADMIN_DN, process.env.LDAP_ADMIN_PASSWORD, (error) => {
+      if (error) {
+        console.error("LDAP管理者バインドエラー:", error);
+        resolve(NextResponse.json({ error: "アカウント登録に失敗しました" }, { status: 500 }));
         return;
       }
 
-      const entry = {
-        cn: username,
-        sn: username,
-        objectClass: ['inetOrgPerson', 'organizationalPerson', 'person', 'top'],
+      const newUserDN = `uid=${userId},${process.env.LDAP_BASE_DN}`;
+      const newUser = {
+        uid: userId,
+        objectClass: ["inetOrgPerson", "simpleSecurityObject"],
         userPassword: password,
+        cn: userId,
+        sn: userId,
       };
 
-      client.add(`cn=${username},${process.env.LDAP_BASE_DN}`, entry, (err) => {
-        client.unbind();
-        if (err) {
-          resolve(NextResponse.json({ error: 'ユーザー登録エラー' }, { status: 400 }));
+      client.add(newUserDN, newUser, (addError) => {
+        if (addError) {
+          console.error("ユーザー追加エラー:", addError);
+          resolve(NextResponse.json({ error: "アカウント登録に失敗しました" }, { status: 500 }));
         } else {
-          resolve(NextResponse.json({ message: 'ユーザー登録成功' }, { status: 201 }));
+          resolve(NextResponse.json({ message: "アカウント登録に成功しました" }, { status: 200 }));
         }
+        client.unbind();
       });
     });
   });

@@ -1,32 +1,40 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { authenticate } from "@/lib/ldap";
+import ldap from "ldapjs";
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "LDAP",
       credentials: {
-        username: { label: "ユーザー名", type: "text" },
+        userId: { label: "ユーザーID", type: "text" },
         password: { label: "パスワード", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) {
-          return null;
-        }
-        try {
-          const user = await authenticate(credentials.username, credentials.password);
-          return user ? { id: user.dn, name: user.cn } : null;
-        } catch (error) {
-          console.error("LDAP認証エラー:", error);
-          return null;
-        }
+        return new Promise((resolve, reject) => {
+          const client = ldap.createClient({
+            url: process.env.LDAP_URI
+          });
+
+          const userDN = `uid=${credentials.userId},${process.env.LDAP_BASE_DN}`;
+
+          client.bind(userDN, credentials.password, (error) => {
+            if (error) {
+              console.error("LDAP認証失敗:", error);
+              reject(new Error("認証に失敗しました"));
+            } else {
+              console.log("LDAP認証成功");
+              resolve({
+                id: credentials.userId,
+                name: credentials.userId
+              });
+            }
+            client.unbind();
+          });
+        });
       }
     })
   ],
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -35,12 +43,14 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-      }
+      session.user.id = token.id;
       return session;
     }
-  }
-});
+  },
+  pages: {
+    signIn: "/login",
+  },
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
