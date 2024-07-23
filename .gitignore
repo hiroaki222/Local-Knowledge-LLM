@@ -38,3 +38,6 @@ jspm_packages
 .next
 
 .history
+
+ldap/config
+ldap/database

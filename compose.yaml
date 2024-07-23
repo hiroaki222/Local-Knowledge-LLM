@@ -5,17 +5,17 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - backend
+      - lldap
     container_name: frontend_container
     volumes:
-      - .:/home/user/workspace:cashed
+      - .:/home/bun/workspace:cached
     ports:
       - "3000:3000"
     environment:
       - BACKEND_URL=http://backend:8000
-    tty: True
+    tty: true
     networks:
       - app-network
-    command: sleep infinity
 
   backend:
     build:
@@ -23,12 +23,30 @@ services:
       dockerfile: Dockerfile
     container_name: backend_container
     volumes:
-      - .:/home/user/workspace:cashed
+      - .:/home/user/workspace:cached
     ports:
       - "8000:8000"
     networks:
       - app-network
-    command: sleep infinity
+
+  lldap:
+    image: lldap/lldap:stable
+    container_name: lldap
+    restart: always
+    ports:
+      - "3890:3890"
+      - "6360:6360"
+      - "17170:17170"
+    volumes:
+       - "./lldap_data:/data"
+    environment:
+      - LLDAP_VERBOSE=true
+      - LLDAP_JWT_SECRET=REPLACE_WITH_RANDOM
+      - LLDAP_KEY_SEED=REPLACE_WITH_RANDOM
+      - LLDAP_LDAP_BASE_DN=dc=ldap,dc=centre,dc=com
+    networks:
+      - app-network
+    
 
 networks:
   app-network:
