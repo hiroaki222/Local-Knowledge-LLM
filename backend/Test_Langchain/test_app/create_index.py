@@ -1,5 +1,6 @@
 from langchain_community.vectorstores.faiss import FAISS
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+#from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader
 
 from langchain.embeddings import BedrockEmbeddings
@@ -20,9 +21,10 @@ embedding_model = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 
 # テキストをチャンクに分割
 split_texts = loader.load_and_split(
-    text_splitter=RecursiveCharacterTextSplitter(
-        chunk_size=500,#* 分割したチャンクごとの文字数
-        chunk_overlap=50  #* チャンク間で被らせる文字数
+    text_splitter=CharacterTextSplitter(
+        separator = "\n\n"
+        chunk_size=1000,#* 分割したチャンクごとの文字数
+        chunk_overlap=150  #* チャンク間で被らせる文字数
     )
 )
 
