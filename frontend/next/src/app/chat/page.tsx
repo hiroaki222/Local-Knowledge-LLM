@@ -1,10 +1,94 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
+import { useEffect, useRef, useState } from "react";
 
 export default function Chat() {
+  const [thread, setThread] = useState()
+  const [chat, setChat] = useState()
+  const hasLoadedBefore = useRef(true);
+  const uid = "8234a9d1-12e4-4567-89ab-0c1de2f34567"
+
+  useEffect(() => {
+    if (hasLoadedBefore.current) {
+      async function fetchThreads(uid: String) {
+        const threadList = []
+        try {
+          const response = await (await fetch(`/api/thread?uid=${uid}`)).json()
+          const titles = response.titles
+          for (let i = 0; i < titles.length; i++) {
+            threadList.push(
+              <button
+                className="flex items-center gap-3 rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted  w-full block"
+                key={i}
+                onClick={() => handleClick(titles[i])}
+              >
+                <div className="truncate">
+                  <div className="text-sm text-foreground">{titles[i]}</div>
+                </div>
+              </button>
+            )
+          }
+          handleClick(titles[0])
+          return threadList
+        } catch (error) {
+          console.error(error)
+          return []
+        }
+      }
+      setThread(fetchThreads(uid))
+      hasLoadedBefore.current = false
+    }
+  }, [])
+
+  function handleClick(title: String) {
+    async function fetchChatLog(title: String) {
+      const chat = []
+      try {
+        const response = await (await fetch(`/api/chat-log?uid=${uid}&title=${title}`)).json()
+        const chatLog = response.chatLog
+        for (let i = 0; i < chatLog.length; i++) {
+          console.log(chatLog[i].content)
+          switch (chatLog[i].role) {
+            case 'user':
+              chat.push(
+                <div key={`user-${i}`} className="flex items-start gap-4 justify-end">
+                  <div className="grid gap-1">
+                    <div className="rounded-lg bg-primary p-3 text-m text-primary-foreground">
+                      {chatLog[i].content}
+                    </div>
+                  </div>
+                </div>
+              )
+              break;
+            case 'ai':
+              chat.push(
+                <div key={`ai-${i}`} className="flex items-start gap-4">
+                  <Avatar className="h-8 w-8 border-2">
+                    <AvatarImage src="/neurology.svg" />
+                    <AvatarFallback>AI</AvatarFallback>
+                  </Avatar>
+                  <div className="grid gap-1">
+                    <div className="rounded-lg bg-muted p-3 text-m">
+                      {chatLog[i].content}
+                    </div>
+                  </div>
+                </div>
+              )
+              break;
+          }
+        }
+        return chat
+      } catch (error) {
+        console.error(error)
+        return []
+      }
+    }
+    setChat(fetchChatLog(title))
+  }
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       <header className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
@@ -13,7 +97,7 @@ export default function Chat() {
           <h1 className="text-lg font-semibold">チャットボット</h1>
         </div>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <Image src="account.svg" alt="プロフィール" width={50} height={50}/>
+          <Image src="account.svg" alt="プロフィール" width={50} height={50} />
           <span className="sr-only">プロフィール</span>
         </Button>
       </header>
@@ -27,38 +111,13 @@ export default function Chat() {
             </Button>
           </div>
           <div className="space-y-2 overflow-auto">
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
-              prefetch={false}
-            >
-              <div className="truncate">
-                <div className="text-sm text-foreground">よう！調子どう？</div>
-              </div>
-            </Link>
+            {thread}
           </div>
         </div>
         <div className="flex flex-1 flex-col">
           <div className="flex-1 overflow-auto px-4 py-6 sm:px-6">
             <div className="grid gap-4">
-            <div className="flex items-start gap-4 justify-end">
-                <div className="grid gap-1">
-                  <div className="rounded-lg bg-primary p-3 text-m text-primary-foreground">
-                    よう！調子どう？
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Avatar className="h-8 w-8 border-2">
-                  <AvatarImage src="/neurology.svg" />
-                  <AvatarFallback>AI</AvatarFallback>
-                </Avatar>
-                <div className="grid gap-1">
-                  <div className="rounded-lg bg-muted p-3 text-m">
-                  めっちゃええで，新しいプロジェクトやってんねん．
-                  </div>
-                </div>
-              </div>
+              {chat}
             </div>
           </div>
           <div className="border-t bg-background px-4 py-3 sm:px-6">
@@ -79,7 +138,7 @@ export default function Chat() {
   )
 }
 
-function ArrowUpIcon(props) {
+function ArrowUpIcon(props: any) {
   return (
     <svg
       {...props}
@@ -100,7 +159,7 @@ function ArrowUpIcon(props) {
 }
 
 
-function MessageCircleIcon(props) {
+function MessageCircleIcon(props: any) {
   return (
     <svg
       {...props}
@@ -120,7 +179,7 @@ function MessageCircleIcon(props) {
 }
 
 
-function PlusIcon(props) {
+function PlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -141,7 +200,7 @@ function PlusIcon(props) {
 }
 
 
-function XIcon(props) {
+function XIcon(props: any) {
   return (
     <svg
       {...props}
