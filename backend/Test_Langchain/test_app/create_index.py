@@ -22,7 +22,7 @@ embedding_model = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
 # テキストをチャンクに分割
 split_texts = loader.load_and_split(
     text_splitter=CharacterTextSplitter(
-        separator = "\n\n"
+        separator = "\n\n",
         chunk_size=1000,#* 分割したチャンクごとの文字数
         chunk_overlap=150  #* チャンク間で被らせる文字数
     )

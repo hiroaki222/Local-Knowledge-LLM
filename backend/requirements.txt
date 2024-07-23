@@ -6,3 +6,5 @@ langchain_aws
 langchain-community
 langchain_groq
 uvicorn[standard]
+faiss-cpu
+unstructured

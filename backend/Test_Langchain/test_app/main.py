@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
-from RetrievalQA import chatbedrock
+from retrievalQA import chatbedrock
+
 
 app = FastAPI()
 

@@ -2,6 +2,7 @@ from langchain_community.llms.llamacpp import LlamaCpp
 from langchain_core.prompts import PromptTemplate
 from langchain_community.vectorstores.faiss import FAISS
 from langchain.chains import RetrievalQA
+from langchain.memory import ConversationBufferMemory
 from langchain_aws import ChatBedrock 
 from langchain.embeddings import BedrockEmbeddings
 import os
@@ -29,12 +30,12 @@ def chatbedrock(user_input):
     knowledge:{context}
     
     あなたは、橿原市役所の職員をサポートするチャットAIです。
-    職員の質問に対して、「knowledge」を参考にし、回答してください。
+    職員の質問に対して、情報を参考に回答してください。
     回答の際に、参照元が明確な場合は参照元を示してください。
     例:第7編教育 橿原市教育委員会会議規則第1章
        第2編議会 橿原市の休日を定める条例（平成元年橿原市条例第２号）
        など
-    また、knowledgeに情報がない場合は、嘘は書かず、再度の質問を促してください。   
+    また、情報がない場合は、嘘は書かず、再度の質問を促してください。   
     Question: {question}
     Reference source:
     Answer: """
@@ -59,7 +60,7 @@ def chatbedrock(user_input):
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=index.as_retriever( 
-            search_kwargs={'k': 5} # indexから上位いくつの検索結果を取得するか
+            search_kwargs={'k': 4} # indexから上位いくつの検索結果を取得するか
         ), 
         chain_type_kwargs={"prompt": QUESTION_PROMPT}, # プロンプトをセット
         chain_type="stuff", #* 検索した文章の処理方法 [stuff:詰め込み方式、map_reduce:チャンクごとに実行、refine:純度を高める]
