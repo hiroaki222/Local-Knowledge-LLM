@@ -1,4 +1,4 @@
-import { mongoSchema } from '@/types/db'
+import { mongoSchema } from '@/lib/types/db'
 import { MongoClient } from 'mongodb'
 import { z } from 'zod'
 
