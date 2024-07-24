@@ -6,6 +6,7 @@ services:
     depends_on:
       - backend
       - lldap
+      - mongodb
     container_name: frontend_container
     volumes:
       - .:/home/bun/workspace:cached
@@ -38,7 +39,7 @@ services:
       - "6360:6360"
       - "17170:17170"
     volumes:
-       - "./lldap_data:/data"
+      - "./lldap_data:/data"
     environment:
       - LLDAP_VERBOSE=true
       - LLDAP_JWT_SECRET=REPLACE_WITH_RANDOM
@@ -46,7 +47,16 @@ services:
       - LLDAP_LDAP_BASE_DN=dc=ldap,dc=centre,dc=com
     networks:
       - app-network
-    
+
+  mongodb:
+    image: mongo
+    container_name: mongodb_container
+    volumes:
+      - ./mongodb/db:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
 
 networks:
   app-network:

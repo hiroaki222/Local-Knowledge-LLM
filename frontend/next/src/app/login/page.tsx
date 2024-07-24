@@ -1,38 +1,33 @@
-'use client';
+'use client'
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Link from 'next/link'; // この行を追加
+import { signIn } from 'next-auth/react'
+import Link from 'next/link' // この行を追加
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function Login() {
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [userId, setUserId] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = await signIn("credentials", {
+    e.preventDefault()
+    const result = await signIn('credentials', {
       userId,
       password,
       redirect: false,
-    });
+    })
     if (result.error) {
-      console.error("ログインエラー:", result.error);
+      console.error('ログインエラー:', result.error)
     } else {
-      router.push("/chat");
+      router.push('/chat')
     }
-  };
+  }
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="ユーザーID"
-        />
+        <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="ユーザーID" />
         <input
           type="password"
           value={password}
@@ -41,7 +36,9 @@ export default function Login() {
         />
         <button type="submit">ログイン</button>
       </form>
-      <p>アカウントをお持ちでない方は <Link href="/register">こちら</Link> から登録してください。</p>
+      <p>
+        アカウントをお持ちでない方は <Link href="/register">こちら</Link> から登録してください。
+      </p>
     </div>
-  );
+  )
 }
