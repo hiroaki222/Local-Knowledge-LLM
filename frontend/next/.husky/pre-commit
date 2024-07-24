@@ -1,1 +1,1 @@
-bunx lint-staged
+cd frontend/next && bunx lint-staged
