@@ -1,1 +1,1 @@
-preload = ["./src/lib/env.ts"]
+preload = ["./src/lib/utils/env.ts"]
