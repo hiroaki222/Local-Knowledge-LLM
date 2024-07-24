@@ -4,6 +4,7 @@ const zVar = z.string().min(1)
 const zEnv = z.object({
   MONGO_URL: zVar,
   BACKEND_URL: zVar,
+  LDAP_URL: zVar,
 })
 
 const result = zEnv.safeParse(process.env)
