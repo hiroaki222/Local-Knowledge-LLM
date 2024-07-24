@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - backend
-      - lldap
+      - ldap
       - mongodb
-    container_name: frontend_container
+    container_name: local-knowledge-llm-frontend
     volumes:
       - .:/home/bun/workspace:cached
     ports:
@@ -17,22 +17,24 @@ services:
     tty: true
     networks:
       - app-network
+    command: sleep infinity
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: backend_container
+    container_name: local-knowledge-llm-backend
     volumes:
       - .:/home/user/workspace:cached
     ports:
       - "8000:8000"
     networks:
       - app-network
+    command: sleep infinity
 
-  lldap:
+  ldap:
     image: lldap/lldap:stable
-    container_name: lldap
+    container_name: local-knowledge-llm-ldap
     restart: always
     ports:
       - "3890:3890"
@@ -50,13 +52,14 @@ services:
 
   mongodb:
     image: mongo
-    container_name: mongodb_container
+    container_name: local-knowledge-llm-mongodb
     volumes:
       - ./mongodb/db:/data/db
     ports:
       - "27017:27017"
     networks:
       - app-network
+    command: sleep infinity
 
 networks:
   app-network:
