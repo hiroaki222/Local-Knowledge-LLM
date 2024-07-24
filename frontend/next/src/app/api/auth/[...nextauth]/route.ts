@@ -1,56 +1,56 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import ldap from "ldapjs";
+import ldap from 'ldapjs'
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "LDAP",
+      name: 'LDAP',
       credentials: {
-        userId: { label: "ユーザーID", type: "text" },
-        password: { label: "パスワード", type: "password" }
+        userId: { label: 'ユーザーID', type: 'text' },
+        password: { label: 'パスワード', type: 'password' },
       },
       async authorize(credentials) {
         return new Promise((resolve, reject) => {
           const client = ldap.createClient({
-            url: process.env.LDAP_URI
-          });
+            url: process.env.LDAP_URI,
+          })
 
-          const userDN = `uid=${credentials.userId},${process.env.LDAP_BASE_DN}`;
+          const userDN = `uid=${credentials.userId},${process.env.LDAP_BASE_DN}`
 
           client.bind(userDN, credentials.password, (error) => {
             if (error) {
-              console.error("LDAP認証失敗:", error);
-              reject(new Error("認証に失敗しました"));
+              console.error('LDAP認証失敗:', error)
+              reject(new Error('認証に失敗しました'))
             } else {
-              console.log("LDAP認証成功");
+              console.log('LDAP認証成功')
               resolve({
                 id: credentials.userId,
-                name: credentials.userId
-              });
+                name: credentials.userId,
+              })
             }
-            client.unbind();
-          });
-        });
-      }
-    })
+            client.unbind()
+          })
+        })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id
       }
-      return token;
+      return token
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      return session;
-    }
+      session.user.id = token.id
+      return session
+    },
   },
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
-};
+}
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }
