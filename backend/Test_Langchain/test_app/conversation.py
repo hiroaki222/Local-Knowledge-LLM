@@ -1,11 +1,13 @@
 from langchain_community.llms.llamacpp import LlamaCpp
 from langchain_core.prompts import PromptTemplate
 from langchain_community.vectorstores.faiss import FAISS
-from langchain.chains import RetrievalQA
-from langchain.memory import ConversationBufferMemory
+from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
+from langchain.memory.buffer_window import ConversationBufferWindowMemory
+from langchain_core.messages.base import messages_to_dict
 from langchain_aws import ChatBedrock 
 from langchain.embeddings import BedrockEmbeddings
 import os
+
 os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 
 
@@ -27,7 +29,7 @@ def chatbedrock(user_input):
     #* 中身を目的に沿った内容に編集してください
     question_prompt_template = """
 
-    knowledge:{context}
+    {context}
     
     あなたは、橿原市役所の職員をサポートするチャットAIです。
     職員の質問に対して、情報を参考に回答してください。
@@ -35,9 +37,9 @@ def chatbedrock(user_input):
     例:第7編教育 橿原市教育委員会会議規則第1章
        第2編議会 橿原市の休日を定める条例（平成元年橿原市条例第２号）
        など
-    また、情報がない場合は、嘘は書かず、再度の質問を促してください。   
+    また、情報がない場合は、嘘は書かず、再度の質問を促してください。 
+
     Question: {question}
-    Reference source:
     Answer: """
 
     # プロンプトの設定
@@ -53,31 +55,46 @@ def chatbedrock(user_input):
         model_kwargs={"temperature": 0.5}
     )
 
+    # メモリー（会話履歴）の設定
+    memory = ConversationBufferWindowMemory(
+        memory_key="chat_history", # メモリーのキー名
+        output_key="answer", # 出力ののキー名
+        k=5, # 保持する会話の履歴数
+        return_messages=True, # チャット履歴をlistで取得する場合はTrue
+    )
+
     # （RAG用）質問回答chainの設定
-    chain = RetrievalQA.from_chain_type(
+    chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=index.as_retriever( 
-            search_kwargs={'k': 4} # indexから上位いくつの検索結果を取得するか
+            search_kwargs={"k": 4}
         ), 
-        chain_type_kwargs={"prompt": QUESTION_PROMPT}, # プロンプトをセット
+
+        combine_docs_chain_kwargs={'prompt': QUESTION_PROMPT}, # プロンプトをセット
         chain_type="stuff", #* 検索した文章の処理方法 [stuff:詰め込み方式、map_reduce:チャンクごとに実行、refine:純度を高める]
+        memory=memory,
         return_source_documents=True # indexの検索結果を確認する場合はTrue
     )
 
-    # 質問文
-    question = user_input
+    while True:
+        User_input = user_input
+        if user_input == "exit":
+            break
+        
+        # LLMの回答生成
+        response = chain.invoke({"question": User_input})
 
-    # LLMの回答生成
-    response = chain.invoke(question)
+        # 回答を確認
+        response_answer = response["answer"]
+        print(f"AI: {response_answer}")
 
-    # indexの検索結果を確認
-    for i, source in enumerate(response["source_documents"], 1):
-            print(f"\nindex: {i}----------------------------------------------------")
-            print(f"{source.page_content}")
-            print("---------------------------------------------------------------")
+        return response_answer
 
-    # 回答を確認
-    response_result = response["result"]
-    print(f"\nAnswer: {response_result}")
-
-    return response_result
+    # 会話履歴の確認
+    chat_history_dict = messages_to_dict(memory.chat_memory.messages)
+    print(f"\nmemory-------------------------------------------------------")
+    for i, chat_history in enumerate(chat_history_dict, 1):
+        chat_history_type = chat_history["type"]
+        chat_history_context = chat_history["data"]["content"]
+        print(f"\n{chat_history_type}: {chat_history_context}")
+    print("-------------------------------------------------------------")
