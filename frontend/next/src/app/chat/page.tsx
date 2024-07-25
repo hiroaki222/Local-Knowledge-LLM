@@ -1,10 +1,9 @@
 'use client'
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Chat() {
   const [thread, setThread] = useState()
@@ -12,7 +11,7 @@ export default function Chat() {
   const [threadId, setThreadId] = useState(null)
   const [prompt, setPrompt] = useState('')
   const hasLoadedBefore = useRef(true)
-  const uid = "8234a9d1-12e4-4567-89ab-0c1de2f34567"
+  const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
 
   useEffect(() => {
     if (hasLoadedBefore.current) {
@@ -24,14 +23,14 @@ export default function Chat() {
           for (let i = 0; i < titles.length; i++) {
             threadList.push(
               <button
-                className="flex items-center gap-3 rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted  w-full block"
+                className="block flex w-full items-center gap-3 rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
                 key={i}
                 onClick={() => handleClick(titles[i].threadId, true)}
               >
                 <div className="truncate">
                   <div className="text-sm text-foreground">{titles[i].title}</div>
                 </div>
-              </button>
+              </button>,
             )
           }
           //handleClick(titles[0].threadId, true)
@@ -60,15 +59,13 @@ export default function Chat() {
           switch (chatLog[i].role) {
             case 'user':
               chatList.push(
-                <div key={`user-${i}`} className="flex items-start gap-4 justify-end">
+                <div key={`user-${i}`} className="flex items-start justify-end gap-4">
                   <div className="grid gap-1">
-                    <div className="rounded-lg bg-primary p-3 text-m text-primary-foreground">
-                      {chatLog[i].content}
-                    </div>
+                    <div className="text-m rounded-lg bg-primary p-3 text-primary-foreground">{chatLog[i].content}</div>
                   </div>
-                </div>
+                </div>,
               )
-              break;
+              break
             case 'ai':
               chatList.push(
                 <div key={`ai-${i}`} className="flex items-start gap-4">
@@ -77,13 +74,11 @@ export default function Chat() {
                     <AvatarFallback>AI</AvatarFallback>
                   </Avatar>
                   <div className="grid gap-1">
-                    <div className="rounded-lg bg-muted p-3 text-m">
-                      {chatLog[i].content}
-                    </div>
+                    <div className="text-m rounded-lg bg-muted p-3">{chatLog[i].content}</div>
                   </div>
-                </div>
+                </div>,
               )
-              break;
+              break
           }
         }
       }
@@ -97,7 +92,7 @@ export default function Chat() {
     }
   }
 
-  async function fetchAnswer(){
+  async function fetchAnswer() {
     const response = await fetch(`/api/chat?thread_id=${threadId}&prompt=${encodeURIComponent(prompt)}`, {
       method: 'POST',
     })
@@ -136,32 +131,38 @@ export default function Chat() {
         <div className="hidden w-60 border-r bg-background p-4 sm:block">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-sm font-medium">スレッド</h2>
-            <Button key={"1e2bdf64-3e37-4c57-87a6-c1a88a9b9b5c"} variant="ghost" size="icon" className="rounded-full"
-              onClick={() => handleClick("", false)}>
+            <Button
+              key={'1e2bdf64-3e37-4c57-87a6-c1a88a9b9b5c'}
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => handleClick('', false)}
+            >
               <PlusIcon className="h-5 w-5" />
               <span className="sr-only">新しいスレッド</span>
             </Button>
           </div>
-          <div className="space-y-2 overflow-auto">
-            {thread}
-          </div>
+          <div className="space-y-2 overflow-auto">{thread}</div>
         </div>
         <div className="flex flex-1 flex-col">
           <div className="flex-1 overflow-auto px-4 py-6 sm:px-6">
-            <div className="grid gap-4">
-              {chat}
-            </div>
+            <div className="grid gap-4">{chat}</div>
           </div>
           <div className="border-t bg-background px-4 py-3 sm:px-6">
             <div className="relative">
               <Textarea
                 placeholder="質問を入力..."
-                className="min-h-[48px] w-full rounded-2xl border border-neutral-400 shadow-sm pr-16"
+                className="border-neutral-400 min-h-[48px] w-full rounded-2xl border pr-16 shadow-sm"
                 value={prompt}
                 onChange={handleInputChange}
               />
-              <Button type="submit" size="icon" className="absolute top-3 right-3" disabled={!prompt.trim()}
-                onClick={() => handleSubmit()}>
+              <Button
+                type="submit"
+                size="icon"
+                className="absolute right-3 top-3"
+                disabled={!prompt.trim()}
+                onClick={() => handleSubmit()}
+              >
                 <ArrowUpIcon className="h-4 w-4" />
                 <span className="sr-only">送信</span>
               </Button>
@@ -193,7 +194,6 @@ function ArrowUpIcon(props: any) {
   )
 }
 
-
 function MessageCircleIcon(props: any) {
   return (
     <svg
@@ -212,7 +212,6 @@ function MessageCircleIcon(props: any) {
     </svg>
   )
 }
-
 
 function PlusIcon(props: any) {
   return (
@@ -233,7 +232,6 @@ function PlusIcon(props: any) {
     </svg>
   )
 }
-
 
 function XIcon(props: any) {
   return (

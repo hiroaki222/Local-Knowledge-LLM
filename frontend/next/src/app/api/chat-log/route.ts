@@ -4,25 +4,30 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const uid = searchParams.get('uid')
+  const title = searchParams.get('title')
 
   const MONGODB_URI = 'mongodb://mongodb:27017'
   const client = new MongoClient(MONGODB_URI)
   const db = client.db('testThreadsDB')
   const coll = db.collection('testThreads')
 
+  let result: Object | null
   try {
     await client.connect()
     const result = await coll.findOne(
-      { uid: uid },
-      { projection: { 'threads.title': 1, 'threads.threadId': 1, _id: 0 } },
+      {
+        uid: uid,
+        'threads.title': title,
+      },
+      {
+        projection: {
+          'threads.$': 1,
+        },
+      },
     )
-    const threadsInfo = result.threads.map((thread) => ({
-      title: thread.title,
-      threadId: thread.threadId,
-    }))
-
+    const chatLog = result.threads[0].chatLog
     await client.close()
-    return NextResponse.json({ threadsInfo: threadsInfo })
+    return NextResponse.json({ chatLog })
   } catch (error) {
     await client.close()
     return NextResponse.json({ 'Error finding document': error })

@@ -1,6 +1,8 @@
-FROM node:current-alpine3.20
+FROM oven/bun:alpine
 
+RUN apk update
+RUN apk add sudo
 RUN apk add github-cli
-RUN npm install -g pnpm
+RUN echo 'bun ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER node
+USER bun
