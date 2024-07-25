@@ -8,7 +8,7 @@ export async function ldapSignIn(username: string, password: string) {
   })
 
   return new Promise<boolean>((resolve) => {
-    client.bind(`cn=${username},ou=people,dc=ldap,dc=centre,dc=com`, password, (err) => {
+    client.bind(`uid=${username},ou=people,dc=example,dc=com`, password, (err) => {
       client.unbind()
       resolve(err ? false : true)
     })
