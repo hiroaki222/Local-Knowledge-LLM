@@ -8,7 +8,7 @@ export default function RedirectProvider({ children }: { children: React.ReactNo
   const router = useRouter()
   const pathname = usePathname()
   const session = useSession()
-  const authenticated = ['/', '/login', '/register']
+  const authenticated = ['/login', '/register']
   const unauthenticated = ['/chat']
 
   useEffect(() => {
