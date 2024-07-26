@@ -55,7 +55,6 @@ services:
       - ./mongodb:/data/db
     networks:
       - app-network
-    command: sleep infinity
 
 networks:
   app-network:
