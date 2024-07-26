@@ -83,7 +83,6 @@ export default function Chat() {
         }
       }
       setChat(chatList)
-      console.log(`Rendering was executed normally`)
       return
     } catch (error) {
       console.error(error)
