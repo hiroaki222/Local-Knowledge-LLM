@@ -30,6 +30,11 @@ export const authOptions = {
       return { ...session, username: token.username, password: token.password }
     },
   },
+  pages: {
+    signIn: "/login",
+    signOut: "/login",
+    newUser: "/register"
+    },
 } satisfies AuthOptions
 
 export function auth(

@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import LogoutButton from '@/components/LogoutButton'
+
 
 export default function Chat() {
   const [thread, setThread] = useState()
@@ -91,10 +93,13 @@ export default function Chat() {
           <MessageCircleIcon className="h-6 w-6 text-primary" />
           <h1 className="text-lg font-semibold">チャットボット</h1>
         </div>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Image src="account.svg" alt="プロフィール" width={50} height={50} />
-          <span className="sr-only">プロフィール</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <LogoutButton />
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Image src="account.svg" alt="プロフィール" width={50} height={50} />
+            <span className="sr-only">プロフィール</span>
+          </Button>
+        </div>
       </header>
       <div className="flex h-full">
         <div className="hidden w-60 border-r bg-background p-4 sm:block">
