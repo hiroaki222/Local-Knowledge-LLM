@@ -11,6 +11,7 @@ const zThread = z.object({
   createAt: z.date(),
   updateAt: z.date(),
   chatLog: z.array(zChatLog),
+  id: z.string(),
 })
 
 export const zUser = z.object({

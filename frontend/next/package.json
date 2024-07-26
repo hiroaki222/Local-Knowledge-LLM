@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "jotai": "^2.9.1",
     "ldapjs": "^3.0.7",
     "lucide-react": "^0.407.0",
     "mongodb": "^6.8.0",
@@ -21,8 +23,10 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
