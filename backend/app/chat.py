@@ -1,10 +1,16 @@
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.faiss import FAISS
-from langchain.embeddings import BedrockEmbeddings
+from langchain_community.embeddings import BedrockEmbeddings
 from langchain_aws import ChatBedrock
 from langchain_core.prompts import ChatPromptTemplate
 import os
 os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+
+# 取得してくるナレッジのクラス定義
+class Document:
+    def __init__(self, metadata, page_content):
+        self.metadata = metadata
+        self.page_content = page_content
 
 # 過去の履歴を踏まえたナレッジ検索文を生成
 def search_sentence_creation(user_input,log):
@@ -84,8 +90,10 @@ def chatbedrock(user_input,chat_log):
     create_question = search_sentence_creation(user_input,log)
 
     # チャット文作成用のナレッジの取得
-    docs = retriever.get_relevant_documents(create_question)
-    #print(docs)
+    docs = retriever.invoke(create_question)
+    
+    # 必要ならdocsの情報も提供可能
+    #source_page_content_pairs = [(doc.metadata['source'], doc.page_content) for doc in docs]
 
     # chainの実行
     ans = chain.invoke({"question":user_input, "context":docs, "chatLog":log})

@@ -1,76 +1,11 @@
-import os
-os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
-import streamlit as st
-from langchain_community.document_loaders import CSVLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import BedrockEmbeddings
-from langchain.vectorstores import Chroma
-from langchain_aws import ChatBedrock
-from langchain.chains import RetrievalQA
+class Document:
+    def __init__(self, metadata, page_content):
+        self.metadata = metadata
+        self.page_content = page_content
 
+docs = [Document(metadata={'source': 'data/例規集第9編市民生活.txt'}, page_content='橿原市環境基本条例平成24年９月26日条例第21号橿原市環境基本条例目次前文第１章\u3000総則（第１条～第６条）第２章\u3000環境の保全及び創造に関する基本的施策第１節\u3000環境に関する基本的な計画の策定（第７条・第８条）第２節\u3000良好な環境を保全し、及び創造するための施策（第９条～第13条）第３章\u3000参画及び協働のための施策（第14条～第16条）第４章\u3000推進体制（第17条）附則橿原市には、万葉集に詠まれた大和三山、飛鳥川や曽我川、また、日本で初めての本格的な都城であった藤原京など、歴史的、文化的な遺産が数多くあります。このことは、古来、この橿原の地が豊かな自然に恵まれ、人々の生活に適した良好な環境であったことを示しています。しかしながら、過去の良好な環境が、現在、そして将来の良好な環境を保証するものでないことは言うまでもありません。私たちが生活する上で適した環境は、私たちが日々努力することでつくり出し、次の世代へと継承していくものです。万葉の時代から年月は移ろい、近年、私たち人類は、社会経済活動において飛躍的な規模の拡大を果たしましたが、同時に、それは、環境に過剰な負荷を与えるものでもありました。その結果、地球温暖化を始めとした様々な環境問題を引き起こし、私たち人類を含む多種多様な生物の存続に必要な基盤が侵食されつつあります。私たちは、だれもが健康で文化的な生活や、住み良い安心できる社会を望んでいます。それならば、私たちは、一人一人がこの橿原の地はもとより、私たち人類の存続の基盤である素晴らしい地球環境についても、積極的にその環境の保全に努めるべきです。そのためには、市、市民、市民団体及び事業者がそれぞれの在り方とその環境への影響力を自覚し、自主的かつ積極的に環境の保全に対してその役割を果たし、相互に協力し連携するとともに、社会経済活動と調和を図りつつ環境の負荷を低減し、地球環境の保全まで視野に入れ、持続的に発展することができる社会の実現に取り組むことが求められます。ここに、万葉の昔から、この橿原の地に受け継がれてきた豊かな自然の継承を指標として、健康で文化的、かつ、安心で安全な生活の基盤となる良好な環境を保全し、後世に引き継ぐため、この条例を制定します。第１章\u3000総則（目的）第１条\u3000この条例は、橿原市（以下「市」という。）において良好な環境を保全し、及び創造するための基本理念を定め、並びに市、市民、市民団体及び事業者の責務を明らかにするとともに、環境の保全及び創造に関する施策を総合的かつ計画的に推進することにより、現在及び将来の市民の健康で文化的な生活の確保に寄与することを目的とする。（定義）第２条\u3000この条例において使用する用語の意義は、環境基本法（平成５年法律第91号）及び地球温暖化対策の推進に関する法律（平成10年法律第117号）における用語の定義の例による。２\u3000前項に定めるほか、次の各号に掲げる用語の意義は、それぞれ当該各号の定めるところによる。(１)\u3000良好な環境\u3000現在及び将来の市民が健康で文化的、かつ、安心で安全な生活を営むことができる生活環境（人の生活に密接な関係のある財産並びに人の生活に密接な関係のある動植物及びその生育環境を含む。以下同じ。）、自然環境及び歴史文化環境をいう。(２)\u3000環境の保全及び創造\u3000公害その他の人の健康若しくは生活環境に係る被害の防止又は自然の恵みの確保その他の良好な環境の維持にとどまらず、積極的に良好な環境をつくり出すことをいう。(３)\u3000市民\u3000市内に住み、又は市内で働き、学び、若しくは活動する人をいう。(４)\u3000市民団体\u3000環境の'), Document(metadata={'source': 'data/例規集第9編市民生活.txt'}, page_content='例規集第9編市民生活'), Document(metadata={'source': 'data/例規集第13編消防・防災.txt'}, page_content='例規集第13編消防・防災'), Document(metadata={'source': 'data/要綱集_第9編_都市マネジメント部.txt'}, page_content='要綱集第9編都市マネジメント部')]
 
+#for a in docs
+source_page_content_pairs = [(doc.metadata['source'], doc.page_content) for doc in docs]
 
-# Chromaデータベースの設定
-CHROMA_PERSIST_DIR = "/app/persistent_storage"
-
-def load_and_embed_data():
-    loader = CSVLoader(file_path="/app/data/data.csv")
-    documents = loader.load()
-    text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=0)
-    texts = text_splitter.split_documents(documents)
-    
-    embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
-    vectorstore = Chroma.from_documents(texts, embeddings, persist_directory=CHROMA_PERSIST_DIR)
-    vectorstore.persist()
-    st.success("データがエンベッディングされ、ベクトルデータベースが更新されました。")
-
-def query_data(query):
-    embeddings = BedrockEmbeddings(model_id="cohere.embed-multilingual-v3")
-    vectorstore = Chroma(persist_directory=CHROMA_PERSIST_DIR, embedding_function=embeddings)
-    
-    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
-    llm = ChatBedrock(
-        model_id=model_id,
-        model_kwargs={"temperature": 0.9}
-    )
-    qa_chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=vectorstore.as_retriever()
-    )
-    
-    response = qa_chain.run(query)
-    return response
-
-st.title("LangChain ver.2 RAG APP with CSV")
-
-st.markdown("""
-## このアプリケーションの使い方
-
-1. **データの準備**: 
-   - CSVファイルを `data` フォルダに `data.csv` という名前で配置します。
-   - このCSVファイルには、質問応答の対象となるデータが含まれている必要があります。
-
-2. **エンベッディングの実行**:
-   - 下の「エンベッディングを実行」ボタンをクリックします。
-   - これにより、CSVファイルのデータがベクトルデータベースに登録されます。
-   - エンベッディングは、新しいデータを追加したときや、データを更新したときに実行する必要があります。
-
-3. **質問の入力**:
-   - エンベッディングが完了したら、下の入力欄に質問を入力します。
-   - 質問は、CSVファイルに含まれるデータに関連するものにしてください。
-   - 「質問を実行」ボタンをクリックすると、AIが回答を生成します。
-
-注意: エンベッディングの実行には時間がかかる場合があります。大きなCSVファイルの場合は、しばらくお待ちください。
-""")
-
-if st.button("エンベッディングを実行"):
-    load_and_embed_data()
-
-query = st.text_input("質問を入力してください：")
-if st.button("質問を実行"):
-    if query:
-        response = query_data(query)
-        st.write("回答:", response)
-    else:
-        st.warning("質問を入力してください。")
+print(source_page_content_pairs)
