@@ -37,7 +37,6 @@ def chatbedrock(user_input):
        など
     また、情報がない場合は、嘘は書かず、再度の質問を促してください。   
     Question: {question}
-    Reference source:
     Answer: """
 
     # プロンプトの設定

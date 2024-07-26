@@ -14,7 +14,8 @@ def read_item(item_id: int, q: str = None):
 
 @app.get('/chat/{prompt}')
 def get_chat(prompt: str = None):
-    ans = chatbedrock(prompt)
+    # 引数に質問文とチャット履歴(前discordに貼ってくれたテキストの形式)を渡してください。
+    ans = chatbedrock(prompt,chatlog)
     return {"response": ans}
 
 if __name__ == "__main__":
