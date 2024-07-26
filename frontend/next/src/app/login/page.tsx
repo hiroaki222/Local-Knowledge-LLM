@@ -12,8 +12,8 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const result = await signIn('credentials', {
-      userId,
+    const result = await signIn('ldap', {
+      username: userId,
       password,
       redirect: false,
     })
