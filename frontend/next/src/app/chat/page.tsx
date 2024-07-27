@@ -11,7 +11,8 @@ export default function Chat() {
   const [threadId, setThreadId] = useState(null)
   const [prompt, setPrompt] = useState('')
   const hasLoadedBefore = useRef(true)
-  const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
+  //const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
+  const uid = '34a5678b-90cd-4567-a12b-3e4f5g6789h0'
 
   useEffect(() => {
     if (hasLoadedBefore.current) {
@@ -61,7 +62,9 @@ export default function Chat() {
               chatList.push(
                 <div key={`user-${i}`} className="flex items-start justify-end gap-4">
                   <div className="grid gap-1">
-                    <div className="text-m rounded-lg bg-primary p-3 text-primary-foreground">{chatLog[i].content}</div>
+                    <div className="text-m max-w-[500px] whitespace-pre-wrap rounded-lg bg-primary p-3 text-primary-foreground">
+                      {chatLog[i].content}
+                    </div>
                   </div>
                 </div>,
               )
@@ -74,7 +77,9 @@ export default function Chat() {
                     <AvatarFallback>AI</AvatarFallback>
                   </Avatar>
                   <div className="grid gap-1">
-                    <div className="text-m rounded-lg bg-muted p-3">{chatLog[i].content}</div>
+                    <div className="text-m max-w-[500px] whitespace-pre-wrap rounded-lg bg-muted p-3">
+                      {chatLog[i].content}
+                    </div>
                   </div>
                 </div>,
               )
