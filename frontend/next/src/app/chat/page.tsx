@@ -126,7 +126,7 @@ export default function Chat() {
           <span className="sr-only">プロフィール</span>
         </Button>
       </header>
-      <div className="flex h-full">
+      <div className="flex flex-1 overflow-hidden">
         <div className="hidden w-60 border-r bg-background p-4 sm:block">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-sm font-medium">スレッド</h2>
@@ -144,8 +144,10 @@ export default function Chat() {
           <div className="space-y-2 overflow-auto">{thread}</div>
         </div>
         <div className="flex flex-1 flex-col">
-          <div className="flex-1 overflow-auto px-4 py-6 sm:px-6">
-            <div className="grid gap-4">{chat}</div>
+          <div className="flex-1 overflow-hidden px-4 py-6 sm:px-6">
+            <div className="h-full overflow-y-auto pr-4">
+              <div className="grid gap-4">{chat}</div>
+            </div>
           </div>
           <div className="border-t bg-background px-4 py-3 sm:px-6">
             <div className="relative">
