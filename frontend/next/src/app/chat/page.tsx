@@ -1,7 +1,15 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { Textarea } from '@/components/ui/textarea'
+import { Edit, MoreVertical, Trash } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
@@ -23,15 +31,34 @@ export default function Chat() {
           const titles = response.threadsInfo
           for (let i = 0; i < titles.length; i++) {
             threadList.push(
-              <button
-                className="block flex w-full items-center gap-3 rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
-                key={i}
+              <div
+                className="flex w-full cursor-pointer items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
                 onClick={() => handleClick(titles[i].threadId, true)}
+                key={i}
               >
-                <div className="truncate">
-                  <div className="text-sm text-foreground">{titles[i].title}</div>
+                <div className="flex-grow text-left">
+                  <div className="truncate">
+                    <div className="text-sm text-foreground">{titles[i].title}</div>
+                  </div>
                 </div>
-              </button>,
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-2">
+                      <MoreVertical className="h-4 w-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleEdit(titles[i].threadId)}>
+                      <Edit className="mr-2 h-4 w-4" />
+                      <span>編集</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDelete(titles[i].threadId)}>
+                      <Trash className="mr-2 h-4 w-4" />
+                      <span>削除</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>,
             )
           }
           //handleClick(titles[0].threadId, true)
@@ -50,10 +77,10 @@ export default function Chat() {
     fetchChatLog(threadId)
   }, [threadId])
 
-  async function fetchChatLog(threadId: String) {
+  async function fetchChatLog(thread: String) {
     const chatList = []
     try {
-      const response = await (await fetch(`/api/chat?thread_id=${threadId}`)).json()
+      const response = await (await fetch(`/api/chat?thread_id=${thread}`)).json()
       const chatLog = response.chatLog
       if (chatLog && chatLog.length > 0) {
         for (let i = 0; i < chatLog.length; i++) {
@@ -119,6 +146,18 @@ export default function Chat() {
     await fetchAnswer()
     await fetchChatLog(threadId)
   }
+
+  function handleEdit(thread: String) {
+    console.log(thread)
+  }
+
+  function handleDelete(thread: String) {
+    console.log(thread)
+  }
+
+  function handleAccountClick() {}
+
+  function handleLogout() {}
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       <header className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
@@ -126,10 +165,22 @@ export default function Chat() {
           <MessageCircleIcon className="h-6 w-6 text-primary" />
           <h1 className="text-lg font-semibold">チャットボット</h1>
         </div>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Image src="account.svg" alt="プロフィール" width={50} height={50} />
-          <span className="sr-only">プロフィール</span>
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Image src="account.svg" alt="プロフィール" width={50} height={50} />
+              <span className="sr-only">プロフィール</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {/* <DropdownMenuLabel>マイアカウント</DropdownMenuLabel>
+          <DropdownMenuSeparator /> */}
+            <DropdownMenuItem>プロフィール</DropdownMenuItem>
+            <DropdownMenuItem>設定</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleLogout()}>ログアウト</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
       <div className="flex flex-1 overflow-hidden">
         <div className="hidden w-60 border-r bg-background p-4 sm:block">
