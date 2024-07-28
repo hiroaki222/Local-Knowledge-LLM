@@ -21,6 +21,11 @@ export default function Chat() {
   const hasLoadedBefore = useRef(true)
   //const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
   const uid = '34a5678b-90cd-4567-a12b-3e4f5g6789h0'
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth' })
+  }, [chat])
 
   useEffect(() => {
     if (hasLoadedBefore.current) {
@@ -98,7 +103,7 @@ export default function Chat() {
               break
             case 'ai':
               chatList.push(
-                <div key={`ai-${i}`} className="flex items-start gap-4">
+                <div key={`ai-${i}`} className="flex items-start gap-4" ref={ref}>
                   <Avatar className="h-8 w-8 border-2">
                     <AvatarImage src="/neurology.svg" />
                     <AvatarFallback>AI</AvatarFallback>
