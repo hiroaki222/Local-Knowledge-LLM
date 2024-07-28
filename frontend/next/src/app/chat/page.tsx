@@ -19,9 +19,9 @@ export default function Chat() {
   const [threadId, setThreadId] = useState(null)
   const [prompt, setPrompt] = useState('')
   const hasLoadedBefore = useRef(true)
+  const ref = useRef<HTMLDivElement>(null)
   //const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
   const uid = '34a5678b-90cd-4567-a12b-3e4f5g6789h0'
-  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth' })
