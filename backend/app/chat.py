@@ -19,7 +19,7 @@ def search_sentence_creation(user_input,log):
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     llm = ChatBedrock(
         model_id=model_id,
-        model_kwargs={"temperature": 0.5}
+        model_kwargs={"temperature": 0}
     )    
 
     prompt = PromptTemplate.from_template("""
@@ -71,12 +71,12 @@ def chatbedrock(user_input,chat_log):
             (
                 "system",
                 "あなたは市の職員を対象にしたサポートチャットです。"
-                "Userの質問「{question}」に対して、渡された情報「{context}」と今までのchat履歴[User]:「{chatLog}」を基に回答を行ってください。"
+                "Userの質問「{question}」に対して、渡された情報「{context}」と今までのchat履歴「{chatLog}」を基に回答を行ってください。"
                 "回答の際に、参照元が明確な場合は参照元を示してください。"
                 "例:第7編教育 橿原市教育委員会会議規則第1章"
                 "第2編議会 橿原市の休日を定める条例（平成元年橿原市条例第２号）"
                 "など"
-                "また、情報がない場合は、嘘は書かず、再度の質問を促してください。 ",
+                "また、情報がない場合は、嘘は書かず、再度の質問を促してください。",
             ),
 
             ("human", "{question}"),
