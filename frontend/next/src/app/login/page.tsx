@@ -4,35 +4,31 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link' // この行を追加
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import {useForm} from "react-hook-form"
 
 export default function Login() {
-  const [userId, setUserId] = useState('')
-  const [password, setPassword] = useState('')
   const router = useRouter()
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const result = await signIn('credentials', {
-      userId,
-      password,
-      redirect: false,
-    })
-    if (result.error) {
-      console.error('ログインエラー:', result.error)
-    } else {
-      router.push('/chat')
-    }
-  }
-
+  const {handleSubmit, register} = useForm<{username: string, password: string}>()
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="ユーザーID" />
+      <form onSubmit={handleSubmit(async (data) => {
+            const result = await signIn('ldap', {
+              username: data.username,
+              password: data.password,
+              redirect: false,
+            })
+
+            if (!result ||result.error) {
+              console.error('ログインエラー:', result?.error)
+            } else {
+              router.push('/chat')
+            }
+      })}>
+        <input type="text" placeholder="ユーザーID"{...register("username", {required: true})} />
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           placeholder="パスワード"
+          {...register("password", {required: true})}
         />
         <button type="submit">ログイン</button>
       </form>

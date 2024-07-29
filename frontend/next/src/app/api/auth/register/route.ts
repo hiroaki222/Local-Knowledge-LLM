@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 
   return new Promise((resolve) => {
     const client = ldap.createClient({
-      url: process.env.LDAP_URI,
+      url: process.env.LDAP_URL,
     })
 
     client.bind(process.env.LDAP_ADMIN_DN, process.env.LDAP_ADMIN_PASSWORD, (error) => {
