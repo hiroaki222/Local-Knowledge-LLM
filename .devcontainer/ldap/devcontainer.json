@@ -1,6 +1,0 @@
-{
-    "name": "Local-Knowledge-LLM_ldap_container",
-    "dockerComposeFile": "../../compose.yaml",
-    "service": "ldap",
-    "workspaceFolder": ""
-}

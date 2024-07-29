@@ -3,18 +3,20 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: local-knowledge-llm-frontend
+    tty: true
     depends_on:
       - backend
       - ldap
-    container_name: frontend_container
-    volumes:
-      - .:/home/bun/workspace:cached
-    ports:
-      - "3000:3000"
+      - mongodb
     environment:
       - BACKEND_URL=http://backend:8000
-      - LDAP_URL=ldap://ldap:389
-    tty: true
+      - LDAP_URL=ldap://ldap:3890
+      - MONGODB_URL=mongodb://mongodb:27017
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/bun/workspace:cached
     networks:
       - app-network
     command: sleep infinity
@@ -23,31 +25,36 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: backend_container
-    volumes:
-      - .:/home/user/workspace:cached
+    container_name: local-knowledge-llm-backend
     ports:
       - "8000:8000"
+    volumes:
+      - .:/home/user/workspace:cached
     networks:
       - app-network
     command: sleep infinity
 
   ldap:
-    image: osixia/openldap:1.5.0
-    container_name: ldap_container
-    volumes:
-      - ./ldap/database:/var/lib/ldap
-      - ./ldap/config:/etc/ldap/slapd.d
+    image: lldap/lldap:stable
+    container_name: local-knowledge-llm-ldap
     ports:
-      - "389:389"
-      - "636:636"
+      - "3890:3890"
+      - "6360:6360"
+      - "17170:17170"
+    volumes:
+      - "./ldap:/data"
     networks:
       - app-network
-    environment:
-      LDAP_ORGANISATION: "My Company"
-      LDAP_DOMAIN: "my-company.com"
-      LDAP_ADMIN_PASSWORD: "0000"
-    command: sleep infinity
+
+  mongodb:
+    image: mongo
+    container_name: local-knowledge-llm-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb:/data/db
+    networks:
+      - app-network
 
 networks:
   app-network:
