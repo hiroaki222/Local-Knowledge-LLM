@@ -10,13 +10,19 @@ export async function GET(request: NextRequest) {
   const db = client.db('testThreadsDB')
   const coll = db.collection('testThreads')
 
-  let result: Object | null
   try {
     await client.connect()
-    result = await coll.findOne({ uid: uid })
-    const titles: string[] = result.threads.map((thread) => thread.title)
+    const result = await coll.findOne(
+      { uid: uid },
+      { projection: { 'threads.title': 1, 'threads.threadId': 1, _id: 0 } },
+    )
+    const threadsInfo = result.threads.map((thread) => ({
+      title: thread.title,
+      threadId: thread.threadId,
+    }))
+
     await client.close()
-    return NextResponse.json({ titles: titles })
+    return NextResponse.json({ threadsInfo: threadsInfo })
   } catch (error) {
     await client.close()
     return NextResponse.json({ 'Error finding document': error })
