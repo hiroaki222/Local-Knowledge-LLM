@@ -1,8 +1,10 @@
 'use server'
 
 import { Attribute, Change, createClient } from 'ldapjs'
+import { v4 } from 'uuid'
 
 export async function ldapSignUp(username: string, password: string) {
+  const uid = v4()
   const client = createClient({
     url: process.env.LDAP_URL,
   })
@@ -17,9 +19,10 @@ export async function ldapSignUp(username: string, password: string) {
 
   const add = await new Promise<boolean>((resolve) => {
     client.add(
-      `uid=${username},ou=people,dc=example,dc=com`,
+      `uid=${uid},ou=people,dc=example,dc=com`,
       {
-        email: username,
+        cn: username,
+        email: `${username}@email.com`,
       },
       (err) => {
         resolve(err ? false : true)
@@ -31,7 +34,7 @@ export async function ldapSignUp(username: string, password: string) {
 
   return await new Promise<boolean>((resolve) => {
     client.modify(
-      `uid=${username},ou=people,dc=example,dc=com`,
+      `uid=${uid},ou=people,dc=example,dc=com`,
       new Change({
         operation: 'replace',
         modification: new Attribute({
