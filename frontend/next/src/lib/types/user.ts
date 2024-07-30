@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { z } from 'zod'
 
 const zChatLog = z.object({
@@ -7,6 +8,7 @@ const zChatLog = z.object({
 })
 
 const zThread = z.object({
+  threadId: z.instanceof(ObjectId),
   title: z.string(),
   createAt: z.date(),
   updateAt: z.date(),
