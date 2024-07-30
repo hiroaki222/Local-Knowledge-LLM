@@ -13,6 +13,8 @@ import { Edit, MoreVertical, Trash } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import LogoutButton from '@/components/LogoutButton'
+
 
 export default function Chat() {
   const [thread, setThread] = useState()
