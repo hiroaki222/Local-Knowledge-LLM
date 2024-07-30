@@ -1,1 +1,1 @@
-cd frontend/next && bunx commitlint --edit -g commitlint.config.mjs
+cd frontend && bunx commitlint --edit -g commitlint.config.mjs
