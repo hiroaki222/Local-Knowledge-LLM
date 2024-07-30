@@ -12,6 +12,34 @@ class Document:
         self.metadata = metadata
         self.page_content = page_content
 
+
+def chat_title_creation(chat_log):
+    # チャット履歴の整形
+    chatlog = [line for line in chat_log.splitlines() if not line.startswith("      timestamp")]
+    log = '\n'.join(chatlog)
+
+    # モデルの設定
+    model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+    llm = ChatBedrock(
+        model_id=model_id,
+        model_kwargs={"temperature": 0.8}
+    ) 
+
+    prompt = PromptTemplate.from_template("""
+    あなたはチャットのタイトルを生成してください。生成にはそれまでの過去の会話の履歴:「{chatLog}」を基に相応しいタイトルを作成してください。
+    また回答は、生成されたタイトルのみにしてください。
+    """)
+
+    # chainの定義
+    chain = prompt | llm
+
+    # chainの実行
+    create_title = chain.invoke({"chatLog":log})
+
+    #タイトルをreturn
+    return create_title.content
+
+
 # 過去の履歴を踏まえたナレッジ検索文を生成
 def search_sentence_creation(user_input,log):
 
@@ -19,11 +47,11 @@ def search_sentence_creation(user_input,log):
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     llm = ChatBedrock(
         model_id=model_id,
-        model_kwargs={"temperature": 0}
+        model_kwargs={"temperature": 0.5}
     )    
 
     prompt = PromptTemplate.from_template("""
-    あなたは検索文を生成してください。生成にはUserの「{question}」と、それまでの過去の会話の履歴[user]:「{chatLog}」との関係性も踏まえて作成してください。
+    あなたは検索文を生成してください。生成にはUserの「{question}」と、それまでの過去の会話の履歴:「{chatLog}」との関係性も踏まえて作成してください。
     また回答は、生成された検索文のみにしてください。
     """)
 
@@ -37,8 +65,9 @@ def search_sentence_creation(user_input,log):
     #質問文をreturn
     return create_question.content
 
+
 # チャット機能
-def chatbedrock(user_input,chat_log):
+def chatbedrock(user_input,chat_log,search_number = 4):
 
     # チャット履歴の整形
     chatlog = [line for line in chat_log.splitlines() if not line.startswith("      timestamp")]
@@ -48,7 +77,7 @@ def chatbedrock(user_input,chat_log):
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     llm = ChatBedrock(
         model_id=model_id,
-        model_kwargs={"temperature": 0.5}
+        model_kwargs={"temperature": 0}
     )
 
     # 埋め込みモデルの読み込み
@@ -62,7 +91,7 @@ def chatbedrock(user_input,chat_log):
         embeddings=embedding_model
     )
     # 検索機能の設定
-    retriever=index.as_retriever(search_kwargs={'k': 4})#関連度上位4件を取得
+    retriever=index.as_retriever(search_kwargs={'k': search_number})#デフォルトでは関連度上位4件を取得
 
     # chat文生成用のプロンプトテンプレート
     prompt_main = ChatPromptTemplate.from_messages(

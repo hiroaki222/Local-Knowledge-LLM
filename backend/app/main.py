@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from chat import chatbedrock
+from chat import chat_title_creation
 
 app = FastAPI()
 
