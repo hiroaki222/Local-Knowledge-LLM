@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Textarea } from '@/components/ui/textarea'
 import { Edit, MoreVertical, Trash } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
@@ -162,7 +163,6 @@ export default function Chat() {
 
   function handleAccountClick() {}
 
-  function handleLogout() {}
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       <header className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
@@ -183,7 +183,7 @@ export default function Chat() {
             <DropdownMenuItem>プロフィール</DropdownMenuItem>
             <DropdownMenuItem>設定</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleLogout()}>ログアウト</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/login' })}>ログアウト</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
