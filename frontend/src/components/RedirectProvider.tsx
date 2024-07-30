@@ -1,7 +1,7 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 
 export default function RedirectProvider({ children }: { children: React.ReactNode }) {
@@ -9,7 +9,8 @@ export default function RedirectProvider({ children }: { children: React.ReactNo
   const pathname = usePathname()
   const session = useSession()
   const authenticated = ['/', '/login', '/register']
-  const unauthenticated = ['/chat']
+  //const unauthenticated = ['/chat']
+  const unauthenticated = []
 
   useEffect(() => {
     if (session.status == 'loading') return
