@@ -2,7 +2,7 @@ import { mongoSchema } from '@/lib/types/db'
 import { MongoClient } from 'mongodb'
 import { z } from 'zod'
 
-const mongoClient = new MongoClient(process.env.MONGODB_URL)
+export const mongoClient = new MongoClient(process.env.MONGODB_URL)
 export const getCollection = (db: keyof typeof mongoSchema) => {
   const col = mongoSchema[db]
   return (collection: keyof typeof col) => {
