@@ -12,7 +12,7 @@ export async function createThread({
   uid: string
   title: string
   content: string
-}): Promise<ObjectId | undefined> {
+}): Promise<string | undefined> {
   const col = getCollection('testThreadsDB')('testThreads')
   const r1 = await col.findOne({ uid })
   if (!r1) {
@@ -40,7 +40,8 @@ export async function createThread({
   )
 
   if (r3.acknowledged && r3.modifiedCount > 0) {
-    return thread.threadId
+    console.log(thread.threadId.toString())
+    return thread.threadId.toString()
   } else {
     return undefined
   }
