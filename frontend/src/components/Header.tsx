@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -26,9 +27,9 @@ export default function Header() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {/* <DropdownMenuLabel>マイアカウント</DropdownMenuLabel>
-          <DropdownMenuSeparator /> */}
-          <DropdownMenuItem>プロフィール</DropdownMenuItem>
+          <DropdownMenuLabel>user@example.com</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {/* <DropdownMenuItem>プロフィール</DropdownMenuItem> */}
           <DropdownMenuItem>設定</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/login' })}>ログアウト</DropdownMenuItem>
