@@ -1,4 +1,14 @@
 'use client'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,22 +19,22 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Textarea } from '@/components/ui/textarea'
-import { Edit, MoreVertical, Trash } from 'lucide-react'
+import { Trash } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import LogoutButton from '@/components/LogoutButton'
-
 
 export default function Chat() {
   const [thread, setThread] = useState()
   const [chat, setChat] = useState([])
   const [threadId, setThreadId] = useState(null)
   const [prompt, setPrompt] = useState('')
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const [threadDelete, setThreadDelete] = useState<object | null>(null)
   const hasLoadedBefore = useRef(true)
   const ref = useRef<HTMLDivElement>(null)
   //const uid = '8234a9d1-12e4-4567-89ab-0c1de2f34567'
-  const uid = '34a5678b-90cd-4567-a12b-3e4f5g6789h0'
+  const uid = '56b7c890-d12e-5678-f901-4567g8901h23'
 
   useEffect(() => {
     if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth' })
@@ -49,23 +59,15 @@ export default function Chat() {
                     <div className="text-sm text-foreground">{titles[i].title}</div>
                   </div>
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="p-2">
-                      <MoreVertical className="h-4 w-4" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => handleEdit(titles[i].threadId)}>
-                      <Edit className="mr-2 h-4 w-4" />
-                      <span>編集</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleDelete(titles[i].threadId)}>
-                      <Trash className="mr-2 h-4 w-4" />
-                      <span>削除</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <button
+                  className="p-2"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDelete(titles[i].title)
+                  }}
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
               </div>,
             )
           }
@@ -155,15 +157,29 @@ export default function Chat() {
     await fetchChatLog(threadId)
   }
 
-  function handleEdit(thread: String) {
-    console.log(thread)
+  function handleDelete(title: string) {
+    setThreadDelete(title)
+    setIsAlertOpen(true)
   }
 
-  function handleDelete(thread: String) {
-    console.log(thread)
+  function confirmDelete() {
+    if (threadDelete) {
+      // ここで実際の削除処理を行います
+      console.log(`「${threadDelete}」を削除しました`)
+      setThreadDelete(null)
+    }
+    setIsAlertOpen(false)
   }
 
-  function handleAccountClick() {}
+  function cancelDelete() {
+    setThreadDelete(null)
+    setIsAlertOpen(false)
+  }
+
+  async function handleNewThread() {
+    setChat(<></>)
+    //createThread(uid: uid, title:'', content,"")
+  }
 
   return (
     <div className="flex h-screen w-full flex-col bg-background">
@@ -198,7 +214,7 @@ export default function Chat() {
               variant="ghost"
               size="icon"
               className="rounded-full"
-              onClick={() => handleClick('', false)}
+              onClick={() => handleNewThread('', false)}
             >
               <PlusIcon className="h-5 w-5" />
               <span className="sr-only">新しいスレッド</span>
@@ -234,6 +250,18 @@ export default function Chat() {
           </div>
         </div>
       </div>
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>「{threadDelete}」を本当に削除しますか？</AlertDialogTitle>
+            <AlertDialogDescription>この操作は取り消せません。データが完全に削除されます。</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelDelete}>キャンセル</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>削除</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
