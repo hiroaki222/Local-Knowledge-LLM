@@ -13,11 +13,6 @@
           "bash": {
             "path": "/bin/bash"
           }
-        },
-        "eslint.format.enable": true,
-        "eslint.useESLintClass": true,
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
         }
       },
       "extensions": [
