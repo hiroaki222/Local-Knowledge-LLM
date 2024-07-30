@@ -1,50 +1,84 @@
 'use server'
 
 import { Attribute, Change, createClient } from 'ldapjs'
-import { v4 } from 'uuid'
 
-export async function ldapSignUp(username: string, password: string) {
-  const uid = v4()
+/**
+ * uidとpasswordを受け取り、新規ユーザーを作成できたらuuidを返すよ！
+ */
+export async function ldapSignUp(uid: string, password: string): Promise<string | undefined> {
   const client = createClient({
     url: process.env.LDAP_URL,
   })
 
+  // clientにadminをバインド (別ユーザーを作成できるようになる)
   const bind = await new Promise<boolean>((resolve) => {
-    client.bind('uid=admin,ou=people,dc=example,dc=com', 'password', (err) => {
+    client.bind(`uid=admin,ou=people,dc=example,dc=com`, 'password', (err) => {
       resolve(err ? false : true)
     })
   })
+  if (!bind) return
 
-  if (!bind) return false
-
+  // 新規ユーザー作成
   const add = await new Promise<boolean>((resolve) => {
     client.add(
       `uid=${uid},ou=people,dc=example,dc=com`,
       {
-        cn: username,
-        email: `${username}@email.com`,
+        cn: uid,
+        email: `${uid}@example.com`,
       },
       (err) => {
         resolve(err ? false : true)
       },
     )
   })
+  if (!add) return
 
-  if (!add) return false
-
-  return await new Promise<boolean>((resolve) => {
+  // パスワード割り当て
+  const modify = await new Promise<boolean>((resolve) => {
     client.modify(
       `uid=${uid},ou=people,dc=example,dc=com`,
       new Change({
-        operation: 'replace',
         modification: new Attribute({
           type: 'userPassword',
           values: [password],
         }),
+        operation: 'replace',
       }),
       (err) => {
-        client.unbind()
         resolve(err ? false : true)
+      },
+    )
+  })
+  if (!modify) return
+
+  // ユーザーのuuidを取得する
+  return new Promise((resolve) => {
+    client.search(
+      `uid=${uid},ou=people,dc=example,dc=com`,
+      {
+        attributes: ['uuid'],
+      },
+      (err, res) => {
+        if (err) {
+          client.unbind()
+          resolve(undefined)
+        }
+
+        let uuid: string | undefined = undefined
+
+        res.on('searchEntry', (entry) => {
+          uuid = entry.pojo.attributes[0].values[0]
+        })
+        res.on('end', () => {
+          res.removeAllListeners()
+          client.unbind()
+          resolve(uuid)
+        })
+        res.on('error', () => {
+          res.removeAllListeners()
+          client.unbind()
+          resolve(undefined)
+        })
       },
     )
   })
