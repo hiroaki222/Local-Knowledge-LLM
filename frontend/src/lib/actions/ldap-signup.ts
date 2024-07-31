@@ -23,8 +23,7 @@ export async function ldapSignUp(uid: string, password: string): Promise<string 
     client.add(
       `uid=${uid},ou=people,dc=example,dc=com`,
       {
-        cn: uid,
-        email: `${uid}@example.com`,
+        email: uid,
       },
       (err) => {
         resolve(err ? false : true)

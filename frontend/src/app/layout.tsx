@@ -1,11 +1,12 @@
 import { Providers } from '@/components/Providers'
 import { Metadata } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
+
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Local Knowledge LLM',
   description: 'Local Knowledge LLM',
+  title: 'Local Knowledge LLM',
 }
 
 const font = Noto_Sans_JP({ subsets: ['latin'] })

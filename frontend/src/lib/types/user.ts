@@ -2,22 +2,22 @@ import { ObjectId } from 'mongodb'
 import { z } from 'zod'
 
 const zChatLog = z.object({
-  timestamp: z.date(),
-  role: z.union([z.literal('user'), z.literal('ai')]),
   content: z.string(),
+  role: z.union([z.literal('user'), z.literal('ai')]),
+  timestamp: z.date(),
 })
 
 const zThread = z.object({
+  chatLog: z.array(zChatLog),
+  createAt: z.date(),
   threadId: z.instanceof(ObjectId),
   title: z.string(),
-  createAt: z.date(),
   updateAt: z.date(),
-  chatLog: z.array(zChatLog),
 })
 
 export const zUser = z.object({
-  uid: z.string(),
   threads: z.array(zThread),
+  uid: z.string(),
 })
 
 export type ChatLog = z.infer<typeof zChatLog>
