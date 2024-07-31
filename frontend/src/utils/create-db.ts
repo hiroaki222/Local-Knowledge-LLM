@@ -1,3 +1,3 @@
 import { mongoClient } from '@/lib/utils/db'
 
-mongoClient.db('main').createCollection('data')
+mongoClient.db('chatsdb').createCollection('users')
