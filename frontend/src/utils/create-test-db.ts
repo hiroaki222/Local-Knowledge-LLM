@@ -1,7 +1,5 @@
-import { getCollection } from '@/lib/utils/db'
+import { getCollection, mongoClient } from '@/lib/utils/db'
 import { ObjectId } from 'mongodb'
-
-const coll = getCollection('chatsdb')('users')
 
 const docs = [
   {
@@ -299,8 +297,14 @@ const docs = [
   },
 ]
 
-async function insertFunc() {
-  const result = await coll.insertMany(docs)
-  console.log(result)
-}
-insertFunc()
+;(async () => {
+  try {
+    const coll = getCollection('chatsdb')('users')
+    const result = await coll.insertMany(docs)
+    console.log(result)
+  } catch(error){
+    console.error(error)
+  } finally {
+    await mongoClient.close()
+  }
+})()
