@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Trash } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 export default function ThreadList({ uid }: { uid: string }) {
@@ -19,6 +20,7 @@ export default function ThreadList({ uid }: { uid: string }) {
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const [threadDelete, setThreadDelete] = useState({ threadId: null, title: null })
   const hasLoadedBefore = useRef(true)
+  const router = useRouter()
 
   async function fetchThreads(uid: string) {
     const threadList = []
@@ -30,7 +32,8 @@ export default function ThreadList({ uid }: { uid: string }) {
           <div
             className="flex w-full cursor-pointer items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
             key={i}
-            onClick={() => handleClick(titles[i].threadId)}
+            //onClick={() => handleClick(titles[i].threadId)}
+            onClick={() => router.push(`/chat/${titles[i].threadId}`)}
           >
             <div className="grow text-left">
               <div className="truncate">
@@ -104,7 +107,7 @@ export default function ThreadList({ uid }: { uid: string }) {
         <Button
           className="rounded-full"
           key={'1e2bdf64-3e37-4c57-87a6-c1a88a9b9b5c'}
-          onClick={() => handleNewThread('', false)}
+          onClick={() => router.push('/chat')}
           size="icon"
           variant="ghost"
         >
