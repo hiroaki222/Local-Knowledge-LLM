@@ -1,5 +1,5 @@
 import { mongoClient } from '@/lib/utils/db'
-;async () => {
+;(async () => {
   try {
     await mongoClient.connect()
     await mongoClient.db('chatsdb').createCollection('users')
@@ -9,4 +9,4 @@ import { mongoClient } from '@/lib/utils/db'
   } finally {
     await mongoClient.close()
   }
-}
+})()
