@@ -1,11 +1,9 @@
-import ChatView from '@/components/ChatView'
-import PromptForm from '@/components/PromptForm'
+import Chat from '@/components/Chat'
 
 export default function ChatPage({ params }: { params: { threadId: string } }) {
   return (
     <>
-      <ChatView threadId={params.threadId} />
-      <PromptForm threadId={params.threadId}/>
+      <Chat threadId={params.threadId} />
     </>
   )
   //return <ChatView />
