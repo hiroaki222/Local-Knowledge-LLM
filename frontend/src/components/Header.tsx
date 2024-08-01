@@ -14,7 +14,7 @@ import { signOut } from 'next-auth/react'
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
+    <div className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
       <div className="flex items-center gap-2">
         <MessageCircleIcon className="size-6 text-primary" />
         <h1 className="text-lg font-semibold">チャットボット</h1>
@@ -22,7 +22,7 @@ export default function Header() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="rounded-full" size="icon" variant="ghost">
-            <Image alt="プロフィール" height={50} src="account.svg" width={50} />
+            <Image alt="プロフィール" height={50} src="/account.svg" width={50} />
             <span className="sr-only">プロフィール</span>
           </Button>
         </DropdownMenuTrigger>
@@ -35,7 +35,7 @@ export default function Header() {
           <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/login' })}>ログアウト</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </header>
+    </div>
   )
 }
 
