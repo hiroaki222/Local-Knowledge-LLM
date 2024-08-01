@@ -16,7 +16,7 @@ export default function ChatView(o: object) {
   async function fetchChatLog(threadId: string) {
     const chatList = []
     try {
-      const response = await (await fetch(`/api/chat?thread_id=${threadId}`)).json()
+      const response = await (await fetch(`/api/chat/${threadId}`, { next: { tags: ['chatLog'] } })).json()
       const chatLog = response.chatLog
       if (chatLog && chatLog.length > 0) {
         for (let i = 0; i < chatLog.length; i++) {

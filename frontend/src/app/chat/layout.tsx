@@ -1,5 +1,4 @@
 import Header from '@/components/Header'
-import PromptForm from '@/components/PromptForm'
 import ThreadList from '@/components/ThreadList'
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
@@ -11,7 +10,6 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
         <ThreadList uid={uid} />
         <div className="flex flex-1 flex-col">
           {children}
-          <PromptForm />
         </div>
       </div>
     </div>
