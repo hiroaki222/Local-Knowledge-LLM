@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "cd .. && husky ./frontend/.husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -43,7 +44,6 @@
     "autoprefixer": "^10.4.19",
     "eslint": "^9.8.0",
     "eslint-config-flat-gitignore": "^0.1.8",
-    "eslint-config-next": "^14.2.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-perfectionist": "^3.0.0",
     "eslint-plugin-prettier": "^5.2.1",
