@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { PromptSubmit } from '@/lib/actions/prompt-submit'
+import { SubmitPrompt } from '@/lib/actions/submit-prompt'
 import React, { useState } from 'react'
 
 export default function PromptForm(o: object) {
@@ -17,7 +17,7 @@ export default function PromptForm(o: object) {
       method: 'POST',
     })
     setPrompt('')
-    PromptSubmit()
+    SubmitPrompt()
   }
   return (
     <div className="border-t bg-background px-4 py-3 sm:px-6">
