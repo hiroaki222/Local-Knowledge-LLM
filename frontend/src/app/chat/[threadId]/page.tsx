@@ -5,7 +5,7 @@ export default function ChatPage({ params }: { params: { threadId: string } }) {
   return (
     <>
       <ChatView threadId={params.threadId} />
-      <PromptForm />
+      <PromptForm threadId={params.threadId}/>
     </>
   )
   //return <ChatView />

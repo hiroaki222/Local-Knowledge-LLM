@@ -4,14 +4,19 @@ import { Textarea } from '@/components/ui/textarea'
 import { PromptSubmit } from '@/lib/actions/prompt-submit'
 import React, { useState } from 'react'
 
-export default function PromptForm() {
+export default function PromptForm(o: object) {
   const [prompt, setPrompt] = useState('')
+  const threadId = o.threadId
 
   function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setPrompt(event.target.value)
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    const response = await fetch(`/api/prompt?thread_id=${threadId}&prompt=${encodeURIComponent(prompt)}`, {
+      method: 'POST',
+    })
+    setPrompt('')
     PromptSubmit()
   }
   return (
