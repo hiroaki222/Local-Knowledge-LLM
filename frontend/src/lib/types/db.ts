@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { zUser } from './user'
 
 export const mongoSchema = {
-  testThreadsDB: {
-    testThreads: zUser,
+  chatsdb: {
+    users: zUser,
   },
 } satisfies {
   [db: string]: {

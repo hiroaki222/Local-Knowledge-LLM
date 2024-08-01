@@ -1,11 +1,13 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 export default function PromptForm() {
   const [prompt, setPrompt] = useState('')
-  function handleInputChange() {}
+  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    setPrompt(event.target.value)
+  }
   function handleSubmit() {}
   return (
     <div className="border-t bg-background px-4 py-3 sm:px-6">

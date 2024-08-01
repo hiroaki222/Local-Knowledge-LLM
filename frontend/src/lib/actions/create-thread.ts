@@ -5,29 +5,29 @@ import { getCollection } from '@/lib/utils/db'
 import { ObjectId } from 'mongodb'
 
 export async function createThread({
-  uid,
-  title,
   content,
+  title,
+  uid,
 }: {
-  uid: string
-  title: string
   content: string
+  title: string
+  uid: string
 }): Promise<string | undefined> {
   const col = getCollection('testThreadsDB')('testThreads')
   const r1 = await col.findOne({ uid })
   if (!r1) {
-    const r2 = await col.insertOne({ uid, threads: [] })
+    const r2 = await col.insertOne({ threads: [], uid })
     if (!r2.acknowledged) return undefined
   }
 
-  const doc = r1 ?? { uid, threads: [] }
+  const doc = r1 ?? { threads: [], uid }
 
   const thread: Thread = {
+    chatLog: [{ content, role: 'user', timestamp: new Date() }],
+    createAt: new Date(),
     threadId: new ObjectId(),
     title: title,
-    createAt: new Date(),
     updateAt: new Date(),
-    chatLog: [{ timestamp: new Date(), role: 'user', content }],
   }
 
   const r3 = await col.updateOne(

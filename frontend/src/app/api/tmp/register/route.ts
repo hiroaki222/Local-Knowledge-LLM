@@ -9,9 +9,9 @@ const createClient = () => {
   }
   return new Promise((resolve, reject) => {
     const client = ldap.createClient({
-      url: process.env.LDAP_URI,
-      timeout: 5000,
       connectTimeout: 10000,
+      timeout: 5000,
+      url: process.env.LDAP_URI,
     })
 
     client.on('error', (err) => {
@@ -27,7 +27,7 @@ const createClient = () => {
 }
 
 export async function POST(req: Request) {
-  const { userId, password } = await req.json()
+  const { password, userId } = await req.json()
 
   try {
     const client = await createClient()
@@ -45,11 +45,11 @@ export async function POST(req: Request) {
 
     const newUserDN = `uid=${userId},${process.env.LDAP_BASE_DN}`
     const newUser = {
-      uid: userId,
-      objectClass: ['inetOrgPerson', 'simpleSecurityObject'],
-      userPassword: password,
       cn: userId,
+      objectClass: ['inetOrgPerson', 'simpleSecurityObject'],
       sn: userId,
+      uid: userId,
+      userPassword: password,
     }
 
     await new Promise((resolve, reject) => {

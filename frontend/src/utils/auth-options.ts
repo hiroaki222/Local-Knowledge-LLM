@@ -1,16 +1,26 @@
 const authOptions = {
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.username = user.username
+        token.password = user.password
+      }
+      return token
+    },
+    async session({ session, token }) {
+      return { ...session, password: token.password, username: token.username }
+    },
+  },
+  pages: {
+    signIn: '/login',
+  },
   providers: [
     CredentialsProvider({
-      name: 'LDAP',
-      credentials: {
-        username: { label: 'ユーザーID', type: 'text' },
-        password: { label: 'パスワード', type: 'password' },
-      },
       async authorize(credentials) {
         if (!credentials) return null
         const ok = await ldapSignIn(credentials.username, credentials.password)
-        return ok ? { id: credentials.username, username: credentials.username, password: credentials.password } : null
-        
+        return ok ? { id: credentials.username, password: credentials.password, username: credentials.username } : null
+
         // return new Promise((resolve, reject) => {
         //   const client = ldap.createClient({
         //     url: process.env.LDAP_URL,
@@ -33,21 +43,11 @@ const authOptions = {
         //   })
         // })
       },
+      credentials: {
+        password: { label: 'パスワード', type: 'password' },
+        username: { label: 'ユーザーID', type: 'text' },
+      },
+      name: 'LDAP',
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.username = user.username
-        token.password = user.password
-      }
-      return token
-    },
-    async session({ session, token }) {
-     return {...session, username: token.username, password: token.password}
-    },
-  },
-  pages: {
-    signIn: '/login',
-  },
 } satisfies AuthOptions

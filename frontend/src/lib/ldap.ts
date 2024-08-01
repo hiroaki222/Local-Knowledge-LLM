@@ -25,8 +25,8 @@ export async function authenticate(username: string, password: string) {
               res.on('searchEntry', (entry) => {
                 client.unbind()
                 resolve({
-                  dn: entry.objectName,
                   cn: entry.object.cn,
+                  dn: entry.objectName,
                 })
               })
               res.on('error', (err) => {

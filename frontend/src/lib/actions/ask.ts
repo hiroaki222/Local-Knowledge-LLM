@@ -3,7 +3,7 @@
 import { ChatLog } from '@/lib/types/user'
 import { getCollection } from '@/lib/utils/db'
 
-export async function ask({ threadId, prompt }: { threadId: string; prompt: string }): Promise<ChatLog[] | undefined> {
+export async function ask({ prompt, threadId }: { prompt: string; threadId: string }): Promise<ChatLog[] | undefined> {
   const askTimestamp = new Date()
   const col = getCollection('testThreadsDB')('testThreads')
   const res = await fetch(`${process.env.BACKEND_URL}/chat/${prompt}`)
@@ -21,14 +21,14 @@ export async function ask({ threadId, prompt }: { threadId: string; prompt: stri
         'threads.$.chatLog': {
           $each: [
             {
-              timestamp: askTimestamp,
-              role: 'user',
               content: prompt,
+              role: 'user',
+              timestamp: askTimestamp,
             },
             {
-              timestamp: ansTimestamp,
-              role: 'ai',
               content: ans,
+              role: 'ai',
+              timestamp: ansTimestamp,
             },
           ],
         },
@@ -43,14 +43,14 @@ export async function ask({ threadId, prompt }: { threadId: string; prompt: stri
 
   return [
     {
-      timestamp: new Date(),
-      role: 'user',
       content: prompt,
+      role: 'user',
+      timestamp: new Date(),
     },
     {
-      timestamp: new Date(),
-      role: 'ai',
       content: ans,
+      role: 'ai',
+      timestamp: new Date(),
     },
   ]
 }
