@@ -6,5 +6,4 @@ export default function ChatPage({ params }: { params: { threadId: string } }) {
       <Chat threadId={params.threadId} />
     </>
   )
-  //return <ChatView />
 }

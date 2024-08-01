@@ -53,7 +53,7 @@ export async function POST(request:NextRequest){
         },
       },
     )
-    return NextResponse.json({ status: result })
+    return NextResponse.json({ success: true, thread_id: thread_id })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Internal Server Error', success: false }, { status: 500 })

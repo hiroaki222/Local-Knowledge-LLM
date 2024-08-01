@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { ArrowUpIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-export default function Chat(o: object) {
+export default function Chat(o: { threadId: string; }) {
   const [chat, setChat] = useState()
   const [prompt, setPrompt] = useState('')
   const threadId = o.threadId
@@ -20,7 +20,7 @@ export default function Chat(o: object) {
   async function fetchChatLog(threadId: string) {
     const chatList = []
     try {
-      const response = await (await fetch(`/api/chat?thread_id=${threadId}`, { next: { tags: ['chatLog'] } })).json()
+      const response = await (await fetch(`/api/chat?thread_id=${threadId}`)).json()
       const chatLog = response.chatLog
       if (chatLog && chatLog.length > 0) {
         for (let i = 0; i < chatLog.length; i++) {
@@ -78,36 +78,44 @@ export default function Chat(o: object) {
     const response = await fetch(`/api/chat?thread_id=${threadId}&prompt=${encodeURIComponent(prompt)}`, {
       method: 'POST',
     })
+    const data = await response.json()
+
+    if (!response.ok) {
+      console.error(data.error)
+      return
+    }
+
+    fetchChatLog(data.thread_id)
     setPrompt('')
   }
 
   return (
     <>
-    <div className="flex-1 overflow-hidden px-4 py-6 sm:px-6">
-      <div className="h-full overflow-y-auto pr-4">
-        <div className="grid gap-4">{chat}</div>
+      <div className="flex-1 overflow-hidden px-4 py-6 sm:px-6">
+        <div className="h-full overflow-y-auto pr-4">
+          <div className="grid gap-4">{chat}</div>
+        </div>
       </div>
-    </div>
-    <div className="border-t bg-background px-4 py-3 sm:px-6">
-      <div className="relative">
-        <Textarea
-          className="min-h-[48px] w-full rounded-2xl border border-neutral-400 pr-16 shadow-sm"
-          onChange={handleInputChange}
-          placeholder="質問を入力..."
-          value={prompt}
-        />
-        <Button
-          className="absolute right-3 top-3"
-          disabled={!prompt.trim()}
-          onClick={() => handleSubmit()}
-          size="icon"
-          type="submit"
-        >
-          <ArrowUpIcon className="size-4" />
-          <span className="sr-only">送信</span>
-        </Button>
+      <div className="border-t bg-background px-4 py-3 sm:px-6">
+        <div className="relative">
+          <Textarea
+            className="min-h-[48px] w-full rounded-2xl border border-neutral-400 pr-16 shadow-sm"
+            onChange={handleInputChange}
+            placeholder="質問を入力..."
+            value={prompt}
+          />
+          <Button
+            className="absolute right-3 top-3"
+            disabled={!prompt.trim()}
+            onClick={() => handleSubmit()}
+            size="icon"
+            type="submit"
+          >
+            <ArrowUpIcon className="size-4" />
+            <span className="sr-only">送信</span>
+          </Button>
+        </div>
       </div>
-    </div>
     </>
   )
 }
