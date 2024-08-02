@@ -199,7 +199,7 @@ export default function Login() {
                 </>
               )}
               <div></div>
-            <Link className='text- text-right' href='/'>ホームへ戻る</Link>
+            <Link className='text-right hover:underline' href='/'>ホームへ戻る</Link>
             </CardFooter>
           </Card>
         </form>
