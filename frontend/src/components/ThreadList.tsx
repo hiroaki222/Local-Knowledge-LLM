@@ -11,14 +11,17 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { Trash } from 'lucide-react'
+import { PlusIcon, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 export default function ThreadList({ uid }: { uid: string }) {
-  const [threads, setThreads] = useState([])
+  const [threads, setThreads] = useState<JSX.Element[]>([])
   const [isAlertOpen, setIsAlertOpen] = useState(false)
-  const [threadDelete, setThreadDelete] = useState({ threadId: null, title: null })
+  const [threadDelete, setThreadDelete] = useState<{ threadId: null | string; title: null | string }>({
+    threadId: null,
+    title: null,
+  })
   const hasLoadedBefore = useRef(true)
   const router = useRouter()
 
@@ -56,7 +59,7 @@ export default function ThreadList({ uid }: { uid: string }) {
       setThreads(threadList)
     } catch (error) {
       console.error(error)
-      setThreads(<></>)
+      setThreads([<></>])
     }
   }
 
@@ -67,10 +70,6 @@ export default function ThreadList({ uid }: { uid: string }) {
     }
   })
 
-  function handleClick(threadId: string) {
-    console.log(threadId)
-  }
-
   function handleDelete({ threadId, title }: { threadId: string; title: string }) {
     setThreadDelete({ threadId: threadId, title: title })
     setIsAlertOpen(true)
@@ -80,7 +79,7 @@ export default function ThreadList({ uid }: { uid: string }) {
     if (threadDelete) {
       ;(async () => {
         try {
-          const response = await fetch(`/api/thread?threadId=${threadDelete.threadId}`, {
+          await fetch(`/api/thread?threadId=${threadDelete.threadId}`, {
             method: 'DELETE',
           })
           await fetchThreads(uid)
@@ -99,9 +98,8 @@ export default function ThreadList({ uid }: { uid: string }) {
     setIsAlertOpen(false)
   }
 
-  function handleNewThread(a, b) {}
   return (
-    <div className="hidden w-60 border-r bg-background p-4 sm:block">
+    <aside className=" sticky top-16 h-[calc(100dvh-4rem)] overflow-auto border-r bg-background p-4 sm:block">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-medium">スレッド</h2>
         <Button
@@ -128,26 +126,6 @@ export default function ThreadList({ uid }: { uid: string }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  )
-}
-
-function PlusIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
+    </aside>
   )
 }

@@ -9,12 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { MessageCircleIcon } from 'lucide-react'
 import Image from 'next/image'
 import { signOut } from 'next-auth/react'
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
+    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background px-4 py-3 shadow-sm sm:px-6">
       <div className="flex items-center gap-2">
         <MessageCircleIcon className="size-6 text-primary" />
         <h1 className="text-lg font-semibold">チャットボット</h1>
@@ -36,24 +37,5 @@ export default function Header() {
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
-  )
-}
-
-function MessageCircleIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-    </svg>
   )
 }
