@@ -14,10 +14,13 @@ export default function Homepage() {
         </Link>
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           <Link className="text-sm font-medium underline-offset-4 hover:underline" href="#" prefetch={false}>
+            ドキュメント
+          </Link>
+          <Link className="text-sm font-medium underline-offset-4 hover:underline" href="#" prefetch={false}>
             機能
           </Link>
           <Link className="text-sm font-medium underline-offset-4 hover:underline" href="#" prefetch={false}>
-            ドキュメント
+            使い方
           </Link>
           <form action='/login'>
           <Button type="submit" variant="default">
