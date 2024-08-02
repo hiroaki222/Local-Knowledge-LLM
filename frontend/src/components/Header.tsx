@@ -23,7 +23,7 @@ export default function Header() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="rounded-full" size="icon" variant="ghost">
-            <Image alt="プロフィール" height={50} src="account.svg" width={50} />
+            <Image alt="プロフィール" height={50} src="/account.svg" width={50} />
             <span className="sr-only">プロフィール</span>
           </Button>
         </DropdownMenuTrigger>
