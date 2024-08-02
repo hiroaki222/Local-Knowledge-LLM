@@ -15,5 +15,4 @@ export default async function ChatPage({ params: { threadId } }: { params: { thr
       <PromptForm threadId={threadId} />
     </main>
   )
-  //return <ChatView />
 }

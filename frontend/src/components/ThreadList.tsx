@@ -35,7 +35,6 @@ export default function ThreadList({ uid }: { uid: string }) {
           <div
             className="flex w-full cursor-pointer items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
             key={i}
-            //onClick={() => handleClick(titles[i].threadId)}
             onClick={() => router.push(`/chat/${titles[i].threadId}`)}
           >
             <div className="grow text-left">

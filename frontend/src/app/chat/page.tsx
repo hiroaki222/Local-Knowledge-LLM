@@ -1,5 +1,3 @@
-import ChatView from '@/components/ChatView'
-
 export default function Chat() {
   return (
     <div className="flex-1 overflow-hidden px-4 py-6 sm:px-6">
