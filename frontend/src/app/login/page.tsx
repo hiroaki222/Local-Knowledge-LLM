@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { ldapSignUp } from '@/lib/actions/ldap-signup'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
+import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -75,7 +76,8 @@ export default function Login() {
           })}
         >
           <Card className=" w-96">
-            <CardHeader />
+            {/* <CardHeader /> */}
+            <p className='m-5 text-xl font-bold'>アカウント作成 / ログイン</p>
             <CardContent className=" grid content-center">
               <FormField
                 control={form.control}
@@ -196,6 +198,8 @@ export default function Login() {
                   </Button>
                 </>
               )}
+              <div></div>
+            <Link className='text- text-right' href='/'>ホームへ戻る</Link>
             </CardFooter>
           </Card>
         </form>
