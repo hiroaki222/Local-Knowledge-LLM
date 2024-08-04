@@ -68,3 +68,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .hidden-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .field-sizing {
+    field-sizing: content;
+  }
+}

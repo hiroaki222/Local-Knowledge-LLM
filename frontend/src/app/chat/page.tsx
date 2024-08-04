@@ -6,9 +6,9 @@ export default async function Chat() {
   if (!session) return <></>
 
   return (
-    <>
-      <div className=" h-[64.25rem]" />
+    <div className=" flex min-h-[calc(100dvh-4rem)] flex-col">
+      <div className=" grow"></div>
       <PromptForm uuid={session.uuid} />
-    </>
+    </div>
   )
 }
