@@ -1,21 +1,16 @@
 'use server'
 
-import { ChatLog } from '@/lib/types/user'
 import { getCollection } from '@/lib/utils/db'
+import { ObjectId } from 'mongodb'
+import { revalidateTag } from 'next/cache'
 
-export async function ask({ prompt, threadId }: { prompt: string; threadId: string }): Promise<ChatLog[] | undefined> {
-  const askTimestamp = new Date()
-  const col = getCollection('testThreadsDB')('testThreads')
-  const res = await fetch(`${process.env.BACKEND_URL}/chat/${prompt}`)
-  if (!res.ok) return undefined
-
-  const ans: string = await res.text()
-  const ansTimestamp = new Date()
-
-  const r1 = col.updateOne(
-    {
-      'threads.threadId': threadId,
-    },
+export async function ask({ prompt, threadId }: { prompt: string; threadId: string }) {
+  const coll = getCollection('chatsdb')('users')
+  /* const response = await fetch(`http://backend:8000/chat/${prompt}`)
+    const answer = await response.json() */
+  const answer = '答えられません'
+  await coll.updateOne(
+    { 'threads.threadId': new ObjectId(threadId) },
     {
       $push: {
         'threads.$.chatLog': {
@@ -23,12 +18,12 @@ export async function ask({ prompt, threadId }: { prompt: string; threadId: stri
             {
               content: prompt,
               role: 'user',
-              timestamp: askTimestamp,
+              timestamp: new Date(),
             },
             {
-              content: ans,
+              content: answer,
               role: 'ai',
-              timestamp: ansTimestamp,
+              timestamp: new Date(),
             },
           ],
         },
@@ -39,18 +34,5 @@ export async function ask({ prompt, threadId }: { prompt: string; threadId: stri
     },
   )
 
-  if (!r1) return undefined
-
-  return [
-    {
-      content: prompt,
-      role: 'user',
-      timestamp: new Date(),
-    },
-    {
-      content: ans,
-      role: 'ai',
-      timestamp: new Date(),
-    },
-  ]
+  revalidateTag(threadId)
 }

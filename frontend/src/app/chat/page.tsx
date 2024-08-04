@@ -1,9 +1,14 @@
-export default function Chat() {
+import PromptForm from '@/components/PromptForm'
+import { auth } from '@/lib/utils/auth'
+
+export default async function Chat() {
+  const session = await auth()
+  if (!session) return <></>
+
   return (
-    <div className="flex-1 overflow-hidden px-4 py-6 sm:px-6">
-      <div className="h-full overflow-y-auto pr-4">
-        <div className="grid gap-4"></div>
-      </div>
-    </div>
+    <>
+      <div className=" h-[64.25rem]" />
+      <PromptForm uuid={session.uuid} />
+    </>
   )
 }

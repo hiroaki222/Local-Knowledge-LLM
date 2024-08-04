@@ -1,48 +1,48 @@
 'use server'
 
-import { Thread } from '@/lib/types/user'
 import { getCollection } from '@/lib/utils/db'
 import { ObjectId } from 'mongodb'
 
 export async function createThread({
-  content,
-  title,
-  uid,
+  prompt,
+  uuid,
 }: {
-  content: string
-  title: string
-  uid: string
+  prompt: string
+  uuid: string | undefined
 }): Promise<string | undefined> {
-  const col = getCollection('testThreadsDB')('testThreads')
-  const r1 = await col.findOne({ uid })
+  if (!uuid) return undefined
+
+  const coll = getCollection('chatsdb')('users')
+  coll.findOne({ uid: uuid })
+
+  const r1 = await coll.findOne({ uid: uuid })
   if (!r1) {
-    const r2 = await col.insertOne({ threads: [], uid })
+    const r2 = await coll.insertOne({
+      threads: [],
+      uid: uuid,
+    })
     if (!r2.acknowledged) return undefined
   }
 
-  const doc = r1 ?? { threads: [], uid }
-
-  const thread: Thread = {
-    chatLog: [{ content, role: 'user', timestamp: new Date() }],
-    createAt: new Date(),
-    threadId: new ObjectId(),
-    title: title,
-    updateAt: new Date(),
-  }
-
-  const r3 = await col.updateOne(
-    { uid },
+  const threadId = new ObjectId()
+  const r3 = await coll.updateOne(
+    { uid: uuid },
     {
       $push: {
-        threads: thread,
+        threads: {
+          chatLog: [],
+          createAt: new Date(),
+          threadId,
+          title: prompt,
+          updateAt: new Date(),
+        },
       },
     },
   )
 
-  if (r3.acknowledged && r3.modifiedCount > 0) {
-    console.log(thread.threadId.toString())
-    return thread.threadId.toString()
-  } else {
-    return undefined
+  if (r3.acknowledged && 0 < r3.modifiedCount) {
+    return threadId.toString()
   }
+
+  return undefined
 }

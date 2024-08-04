@@ -1,44 +1,75 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { SubmitPrompt } from '@/lib/actions/submit-prompt'
-import { ArrowUpIcon } from 'lucide-react'
-import React, { useState } from 'react'
+import { ask } from '@/lib/actions/ask'
+import { createThread } from '@/lib/actions/create-thread'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowUpIcon, Loader2Icon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-export default function PromptForm({ threadId }: { threadId: string }) {
-  const [prompt, setPrompt] = useState('')
+export default function PromptForm({ threadId, uuid }: { threadId?: string; uuid: string }) {
+  const [isPending, startTransition] = useTransition()
 
-  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setPrompt(event.target.value)
-  }
+  const router = useRouter()
 
-  async function handleSubmit() {
-    await fetch(`/api/prompt?thread_id=${threadId}&prompt=${encodeURIComponent(prompt)}`, {
-      method: 'POST',
-    })
-    setPrompt('')
-    SubmitPrompt()
-  }
+  const zForm = z.object({
+    prompt: z.string().min(1),
+  })
+
+  const form = useForm<z.infer<typeof zForm>>({
+    defaultValues: {
+      prompt: '',
+    },
+    resolver: zodResolver(zForm),
+  })
+
   return (
-    <div className="sticky bottom-0 border-t bg-background px-4 py-3 sm:px-6">
-      <div className="relative">
-        <Textarea
-          className="min-h-[48px] w-full rounded-2xl border border-neutral-400 pr-16 shadow-sm"
-          onChange={handleInputChange}
-          placeholder="質問を入力..."
-          value={prompt}
-        />
-        <Button
-          className="absolute right-3 top-3"
-          disabled={!prompt.trim()}
-          onClick={() => handleSubmit()}
-          size="icon"
-          type="submit"
+    <div className=" sticky bottom-0">
+      <Form {...form}>
+        <form
+          className=" relative p-2"
+          onSubmit={form.handleSubmit(async ({ prompt }) =>
+            startTransition(async () => {
+              if (!threadId) {
+                const newThreadId = await createThread({ prompt, uuid })
+                if (!newThreadId) return
+                await ask({ prompt, threadId: newThreadId })
+                router.push(`/chat/${newThreadId}`)
+                return
+              }
+
+              await ask({ prompt, threadId })
+
+              form.reset()
+            }),
+          )}
         >
-          <ArrowUpIcon className="size-4" />
-          <span className="sr-only">送信</span>
-        </Button>
-      </div>
+          <FormField
+            control={form.control}
+            name="prompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    disabled={isPending}
+                    {...field}
+                    className=" h-14 min-h-14 resize-none pr-14"
+                    placeholder="質問を入力..."
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button className=" absolute right-4 top-4" disabled={isPending} size="icon" type="submit">
+            {isPending ? <Loader2Icon className=" animate-spin" /> : <ArrowUpIcon />}
+          </Button>
+        </form>
+      </Form>
     </div>
   )
 }

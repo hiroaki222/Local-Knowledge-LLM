@@ -11,63 +11,24 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { deleteThread } from '@/lib/actions/delete-thread'
 import { PlusIcon, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
-export default function ThreadList({ uid }: { uid: string }) {
-  const [threads, setThreads] = useState<JSX.Element[]>([])
+export default function ThreadList({
+  threads,
+  uuid,
+}: {
+  threads: { threadId: string; title: string }[]
+  uuid: string
+}) {
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const [threadDelete, setThreadDelete] = useState<{ threadId: null | string; title: null | string }>({
     threadId: null,
     title: null,
   })
-  const hasLoadedBefore = useRef(true)
   const router = useRouter()
-
-  async function fetchThreads(uid: string) {
-    const threadList = []
-    try {
-      const response = await (await fetch(`/api/thread?uid=${uid}`)).json()
-      const titles = response.threadsInfo
-      for (let i = 0; i < titles.length; i++) {
-        threadList.push(
-          <div
-            className="flex w-full cursor-pointer items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
-            key={i}
-            onClick={() => router.push(`/chat/${titles[i].threadId}`)}
-          >
-            <div className="grow text-left">
-              <div className="truncate">
-                <div className="text-sm text-foreground">{titles[i].title}</div>
-              </div>
-            </div>
-            <button
-              className="p-2"
-              onClick={(e) => {
-                e.stopPropagation()
-                handleDelete({ threadId: titles[i].threadId, title: titles[i].title })
-              }}
-            >
-              <Trash className="size-4" />
-            </button>
-          </div>,
-        )
-      }
-
-      setThreads(threadList)
-    } catch (error) {
-      console.error(error)
-      setThreads([<></>])
-    }
-  }
-
-  useEffect(() => {
-    if (hasLoadedBefore.current) {
-      fetchThreads(uid)
-      hasLoadedBefore.current = false
-    }
-  })
 
   function handleDelete({ threadId, title }: { threadId: string; title: string }) {
     setThreadDelete({ threadId: threadId, title: title })
@@ -75,21 +36,15 @@ export default function ThreadList({ uid }: { uid: string }) {
   }
 
   function confirmDelete() {
-    if (threadDelete) {
-      ;(async () => {
-        try {
-          await fetch(`/api/thread?threadId=${threadDelete.threadId}`, {
-            method: 'DELETE',
-          })
-          await fetchThreads(uid)
-        } catch (error) {
-          console.error(error)
-        }
-      })()
+    return (async () => {
+      if (!threadDelete.threadId) return
+
+      const { threadId } = threadDelete
+      await deleteThread({ threadId, uuid })
 
       setThreadDelete({ threadId: null, title: null })
-    }
-    setIsAlertOpen(false)
+      setIsAlertOpen(false)
+    })()
   }
 
   function cancelDelete() {
@@ -112,7 +67,32 @@ export default function ThreadList({ uid }: { uid: string }) {
           <span className="sr-only">新しいスレッド</span>
         </Button>
       </div>
-      <div className="space-y-2 overflow-auto">{threads}</div>
+      <div className="space-y-2 overflow-auto">
+        {threads.map(({ threadId, title }, i) => (
+          <>
+            <div
+              className="flex w-full cursor-pointer items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted"
+              key={i}
+              onClick={() => router.push(`/chat/${threadId}`)}
+            >
+              <div className="grow text-left">
+                <div className="truncate">
+                  <div className="text-sm text-foreground">{title}</div>
+                </div>
+              </div>
+              <button
+                className="p-2"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleDelete({ threadId, title })
+                }}
+              >
+                <Trash className="size-4" />
+              </button>
+            </div>
+          </>
+        ))}
+      </div>
       <AlertDialog onOpenChange={setIsAlertOpen} open={isAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
