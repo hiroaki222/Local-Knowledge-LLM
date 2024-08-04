@@ -8,9 +8,8 @@ export default function RedirectProvider({ children }: { children: React.ReactNo
   const router = useRouter()
   const pathname = usePathname()
   const session = useSession()
-  const authenticated = ['/', '/login']
+  const authenticated = ['/login']
   const unauthenticated = ['/chat']
-  //const unauthenticated = []
 
   useEffect(() => {
     if (session.status == 'loading') return
@@ -20,7 +19,7 @@ export default function RedirectProvider({ children }: { children: React.ReactNo
     } else {
       unauthenticated.includes(pathname) && router.replace('/login')
     }
-  }, [session])
+  }, [pathname, session])
 
   return session.status !== 'loading' && <>{children}</>
 }
