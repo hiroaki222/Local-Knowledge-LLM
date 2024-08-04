@@ -22,7 +22,7 @@ def chat_title_creation(chat_log):
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     llm = ChatBedrock(
         model_id=model_id,
-        model_kwargs={"temperature": 0.8}
+        model_kwargs={"temperature": 0.6}
     ) 
 
     prompt = PromptTemplate.from_template("""
@@ -67,7 +67,7 @@ def search_sentence_creation(user_input,log):
 
 
 # チャット機能
-def chatbedrock(user_input,chat_log,search_number = 4):
+def chatbedrock(user_input,chat_log,search_number = 5):
 
     # チャット履歴の整形
     chatlog = [line for line in chat_log.splitlines() if not line.startswith("      timestamp")]
@@ -77,7 +77,7 @@ def chatbedrock(user_input,chat_log,search_number = 4):
     model_id = "anthropic.claude-3-haiku-20240307-v1:0"
     llm = ChatBedrock(
         model_id=model_id,
-        model_kwargs={"temperature": 0}
+        model_kwargs={"temperature": 0.1}
     )
 
     # 埋め込みモデルの読み込み
@@ -97,13 +97,17 @@ def chatbedrock(user_input,chat_log,search_number = 4):
     prompt_main = ChatPromptTemplate.from_messages(
         [
             (
-                "system",
-                "あなたは○○対象にしたサポートチャットです。"
-                "Userの質問「{question}」に対して、渡された情報「{context}」と今までのchat履歴「{chatLog}」を基に回答を行ってください。"
-                "回答の際に、参照元が明確な場合は参照元を示してください。"
-                "例:"
+                "あなたは○○を対象にしたサポートチャットです。"
+                "サポートの内容は、○○に関する情報を質問に応じて提供することです。"
+                "Userの質問「question」に対して、渡された情報「context」と今までのchat履歴「chatLog」を基に回答を行ってください。"
+                "回答の際に、参照元が明確な場合は回答の最後にsourceを基に参照元を示してください。"
+                "例:参照元:○○"
                 "など"
-                "また、情報がない場合は、嘘は書かず、再度の質問を促してください。",
+                "また、情報がない場合は、嘘は書かず、再度の質問を促してください。"
+                "---------------"
+                "question: {question}"
+                "context: {context}"
+                "chatLog: {chatLog}",
             ),
 
             ("human", "{question}"),

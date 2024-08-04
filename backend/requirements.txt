@@ -1,10 +1,7 @@
-boto3
-chromadb
 fastapi
 langchain
 langchain_aws
 langchain-community
-langchain_groq
 uvicorn[standard]
 faiss-cpu
 unstructured
