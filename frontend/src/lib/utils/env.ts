@@ -5,6 +5,7 @@ const zEnv = z.object({
   BACKEND_URL: zVar,
   LDAP_URL: zVar,
   MONGODB_URL: zVar,
+  NEXTAUTH_SECRET: zVar,
 })
 
 const result = zEnv.safeParse(process.env)

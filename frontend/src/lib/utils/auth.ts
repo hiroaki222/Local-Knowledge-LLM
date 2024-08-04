@@ -13,8 +13,8 @@ export const authOptions = {
       }
       return token
     },
-    async session({ session, token }) {
-      return { ...session, email: token.username, password: token.password }
+    async session({ session: { expires }, token: { email, uuid } }) {
+      return { email, expires, uuid }
     },
   },
   pages: {
@@ -27,6 +27,7 @@ export const authOptions = {
         if (!credentials) return null
         const { email, password } = credentials
         const uuid = await ldapSignIn(email, password)
+        // return uuid ? { email, id: uuid, uuid } : null
         return uuid ? { email, id: uuid, uuid } : null
       },
       credentials: {
@@ -36,6 +37,7 @@ export const authOptions = {
       id: 'ldap',
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
 } satisfies AuthOptions
 
 export function auth(
