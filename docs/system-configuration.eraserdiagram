@@ -1,0 +1,44 @@
+cloud-architecture-diagram
+bedrock[icon:aws-bedrock]
+docker [icon: docker] {
+  FRONTEND [icon:next] {
+    next[icon:next]
+  }
+  BACKEND [icon:python] {
+    python [icon:python]
+  }
+  LLDAP [icon:key] {
+    mail[icon:mail]
+    uid: string()[icon:file-text]
+  }
+  MONGODB [icon:mongodb]
+}
+
+mongodb {
+  データベース(name:chatsdb)[icon:database] {
+    コレクション(name:users){
+      ドキュメント{
+        thread{
+          createAt: date()[icon:timer]
+          threadId: uuid [icon:file-text]
+          title: string()[icon:file-text]
+          updateAt: date()[icon:timer]
+          chatLog{
+            content [icon:message-circle]
+            role [icon:users]
+            timestamp [icon:timer]
+          }
+        }
+        lldap-uid: string()[icon:file-text]
+        
+      }
+    }
+  }
+  
+}
+mongodb < MONGODB
+bedrock<>BACKEND
+
+
+
+
