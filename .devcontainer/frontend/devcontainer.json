@@ -2,7 +2,7 @@
   "name": "Local-Knowledge-LLM_frontend_container",
   "dockerComposeFile": "../../compose.yaml",
   "service": "frontend",
-  "workspaceFolder": "/home/bun/workspace/frontend/next",
+  "workspaceFolder": "/home/bun/workspace/frontend",
   "workspaceMount": "source=${localWorkspaceFolder},target=/home/bun/workspace,type=bind,consistency=cached",
   "customizations": {
     "vscode": {
@@ -13,6 +13,11 @@
           "bash": {
             "path": "/bin/bash"
           }
+        },
+        "eslint.format.enable": true,
+        "eslint.useESLintClass": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
         }
       },
       "extensions": [
