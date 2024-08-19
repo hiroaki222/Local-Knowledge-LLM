@@ -1,2 +1,7 @@
+fastapi
 langchain
-boto3
+langchain_aws
+langchain-community
+uvicorn[standard]
+faiss-cpu
+unstructured

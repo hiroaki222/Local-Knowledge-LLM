@@ -3,16 +3,20 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: local-knowledge-llm-frontend
+    tty: true
     depends_on:
       - backend
-    container_name: frontend_container
-    volumes:
-      - .:/home/user/workspace:cashed
-    ports:
-      - "3000:3000"
+      - ldap
+      - mongodb
     environment:
       - BACKEND_URL=http://backend:8000
-    tty: True
+      - LDAP_URL=ldap://ldap:3890
+      - MONGODB_URL=mongodb://mongodb:27017
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/bun/workspace:cached
     networks:
       - app-network
     command: sleep infinity
@@ -21,14 +25,36 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: backend_container
-    volumes:
-      - .:/home/user/workspace:cashed
+    container_name: local-knowledge-llm-backend
     ports:
       - "8000:8000"
+    volumes:
+      - .:/home/user/workspace:cached
     networks:
       - app-network
     command: sleep infinity
+
+  ldap:
+    image: lldap/lldap:stable
+    container_name: local-knowledge-llm-ldap
+    ports:
+      - "3890:3890"
+      - "6360:6360"
+      - "17170:17170"
+    volumes:
+      - "./ldap:/data"
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo
+    container_name: local-knowledge-llm-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb:/data/db
+    networks:
+      - app-network
 
 networks:
   app-network:
